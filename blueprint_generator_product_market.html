@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VentureOS | Blueprint Generator: Product & Market</title>
+  <style>
+    :root {
+      --bg: #0c0f17;
+      --bg-soft: #101725;
+      --panel: #121a2a;
+      --panel-2: #151f33;
+      --panel-3: #0f1625;
+      --border: rgba(255, 224, 146, 0.11);
+      --border-strong: rgba(255, 224, 146, 0.24);
+      --gold: #f2c55d;
+      --gold-2: #d9a53d;
+      --gold-soft: rgba(242, 197, 93, 0.12);
+      --text: #eff2f8;
+      --muted: #8c96ad;
+      --muted-2: #667086;
+      --green: #66d08c;
+      --red: #ef8b8b;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.38);
+      --font-ui: "Segoe UI", Arial, Helvetica, sans-serif;
+      --font-display: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(242, 197, 93, 0.08), transparent 24%),
+        radial-gradient(circle at 90% 0%, rgba(92, 126, 255, 0.06), transparent 18%),
+        linear-gradient(180deg, #181818 0%, #0f1116 100%);
+      color: var(--text);
+      font-family: var(--font-ui);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 85%);
+    }
+
+    .shell {
+      width: min(1260px, calc(100vw - 28px));
+      margin: 10px auto 16px;
+      border: 1px solid rgba(255,255,255,0.03);
+      background: rgba(6, 10, 18, 0.86);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .top-title {
+      padding: 10px 18px 6px;
+      font-size: 14px;
+      color: rgba(232, 236, 243, 0.52);
+      letter-spacing: -0.1px;
+    }
+
+    .topbar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 18px;
+      background: linear-gradient(180deg, rgba(37, 27, 12, 0.98), rgba(24, 20, 13, 0.98));
+      border-top: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      color: #ffd87a;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .brand-badge {
+      font-size: 8px;
+      color: #1d1405;
+      background: var(--gold);
+      padding: 2px 4px;
+      border-radius: 2px;
+      letter-spacing: 0.8px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+      align-items: center;
+    }
+
+    .nav a {
+      color: rgba(234, 238, 248, 0.72);
+      text-decoration: none;
+      font-size: 10.5px;
+      padding: 5px 7px;
+      border-radius: 2px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #fff;
+      background: rgba(242, 197, 93, 0.12);
+    }
+
+    .nav a.active {
+      border-bottom: 2px solid var(--gold);
+      border-radius: 0;
+      padding-bottom: 3px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 9px;
+      color: #e2e6ef;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+      padding: 3px 7px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .icon-btn,
+    .avatar {
+      width: 19px;
+      height: 19px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: #edf2ff;
+      border-radius: 50%;
+      font-size: 10px;
+    }
+
+    .avatar {
+      border-radius: 50%;
+      background: linear-gradient(180deg, #f5dd8c, #ce9c2d);
+      color: #1f1707;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 10px 14px 14px;
+    }
+
+    .breadcrumb {
+      color: #7e879b;
+      font-size: 10px;
+      margin: 2px 0 10px;
+    }
+
+    .page-title {
+      margin: 0 0 5px;
+      font-family: var(--font-display);
+      font-size: 23px;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+
+    .page-subtitle {
+      color: #8992a8;
+      font-size: 10px;
+      margin: 0 0 18px;
+    }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+      align-items: center;
+      padding: 2px 2px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .step {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .step::after {
+      content: "";
+      position: absolute;
+      right: -6px;
+      top: 13px;
+      width: calc(100% - 34px);
+      height: 2px;
+      background: rgba(242, 197, 93, 0.2);
+    }
+
+    .step:last-child::after { display: none; }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #9aa4ba;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step.active .step-dot {
+      background: linear-gradient(180deg, #f5cf70, #d9ab42);
+      color: #27190a;
+      border-color: rgba(255, 227, 155, 0.82);
+      box-shadow: 0 0 0 3px rgba(242, 197, 93, 0.06);
+    }
+
+    .step-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #d9dfec;
+    }
+
+    .step.active .step-label { color: #fff1c1; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) 320px;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .main-card,
+    .side-card,
+    .notice-card,
+    .feature-card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(11, 15, 25, 0.98));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .main-card {
+      padding: 14px;
+    }
+
+    .main-card h2,
+    .side-card h3 {
+      margin: 0;
+      color: #f5f7fc;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .main-card h2 {
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .notice-card {
+      padding: 12px;
+      min-height: 94px;
+      border-color: var(--border-strong);
+    }
+
+    .notice-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffe2a0;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .notice-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(242, 197, 93, 0.12);
+      border: 1px solid rgba(242, 197, 93, 0.32);
+      font-size: 10px;
+    }
+
+    .notice-card p {
+      margin: 0;
+      color: #d7dcec;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .feature-card {
+      padding: 12px;
+      min-height: 200px;
+    }
+
+    .feature-card h3 {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #d8deec;
+      font-size: 10px;
+    }
+
+    .check-icon {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      border: 1px solid rgba(102, 208, 140, 0.6);
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(102, 208, 140, 0.08);
+      font-size: 9px;
+      flex: 0 0 auto;
+    }
+
+    .tier-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      padding: 10px 10px;
+      font-size: 10px;
+      color: #cad0de;
+    }
+
+    .tier-row strong {
+      color: #fff3bf;
+    }
+
+    .gold-link {
+      color: #f5ce6a;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .label {
+      color: #99a3b8;
+      font-size: 9px;
+      text-transform: none;
+    }
+
+    .input,
+    .textarea,
+    .select,
+    .split-button {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(9, 13, 22, 0.9);
+      color: #edf2ff;
+      font-size: 10px;
+      padding: 10px 10px;
+      outline: none;
+      font-family: var(--font-ui);
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+      color: #596276;
+    }
+
+    .select {
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #9aa4ba 50%),
+        linear-gradient(135deg, #9aa4ba 50%, transparent 50%);
+      background-position:
+        calc(100% - 16px) calc(50% - 2px),
+        calc(100% - 11px) calc(50% - 2px);
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      padding-right: 28px;
+    }
+
+    .split-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .split-button-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .split-button {
+      text-align: center;
+      cursor: pointer;
+      padding: 8px 6px;
+      color: #cbd2e0;
+      border-color: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .split-button.active {
+      border-color: rgba(242, 197, 93, 0.45);
+      background: rgba(242, 197, 93, 0.12);
+      color: #ffe9aa;
+    }
+
+    .channel-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .channel {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      padding: 9px 8px;
+      color: #cbd2e0;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .channel.checked {
+      border-color: rgba(242, 197, 93, 0.38);
+      background: rgba(242, 197, 93, 0.09);
+      color: #fff0be;
+    }
+
+    .channel input {
+      appearance: none;
+      width: 11px;
+      height: 11px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.04);
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .channel.checked input {
+      border-color: #ffd66e;
+      background: #f2c55d;
+    }
+
+    .channel.checked input::after {
+      content: "✓";
+      position: absolute;
+      left: 1px;
+      top: -1px;
+      font-size: 9px;
+      color: #231707;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+
+    .toggle-copy {
+      display: grid;
+      gap: 3px;
+    }
+
+    .toggle-copy .title {
+      font-size: 10px;
+      color: #e9edf8;
+    }
+
+    .toggle-copy .desc {
+      font-size: 9px;
+      color: #8d96aa;
+    }
+
+    .switch {
+      width: 34px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.11);
+      border: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #efc965, #d8a73d);
+      transition: transform 0.18s ease;
+    }
+
+    .switch.on {
+      background: rgba(242, 197, 93, 0.28);
+      border-color: rgba(242, 197, 93, 0.55);
+    }
+
+    .switch.on::after {
+      transform: translateX(16px);
+    }
+
+    .textarea {
+      min-height: 100px;
+      resize: none;
+      line-height: 1.4;
+    }
+
+    .sidebar-title {
+      font-size: 11px;
+      margin: 0 0 4px;
+    }
+
+    .save-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .save-bar .mini {
+      color: #8a93a8;
+      font-size: 9px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .outline-btn,
+    .gold-btn {
+      height: 28px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #ecf0f9;
+      font-size: 10px;
+      padding: 0 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .gold-btn {
+      background: linear-gradient(180deg, #f5cf70, #d9ab42);
+      color: #221607;
+      border-color: rgba(255, 227, 155, 0.85);
+      font-weight: 800;
+    }
+
+    .outline-btn:hover {
+      border-color: rgba(242, 197, 93, 0.38);
+      background: rgba(242, 197, 93, 0.07);
+    }
+
+    .gold-btn:hover {
+      filter: brightness(1.03);
+    }
+
+    .footer-note {
+      color: #9ba4b8;
+      font-size: 9px;
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .stepper {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .step::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100vw - 10px, 100%);
+        margin: 5px auto;
+      }
+
+      .topbar {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 8px 10px;
+      }
+
+      .nav {
+        order: 3;
+        flex-basis: 100%;
+        overflow-x: auto;
+      }
+
+      .content {
+        padding: 10px;
+      }
+
+      .stepper,
+      .form-grid,
+      .split-inputs,
+      .split-button-group,
+      .channel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .save-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .actions {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top-title">VentureOS | Blueprint Generator: Product &amp; Market</div>
+
+    <header class="topbar">
+      <div class="brand">VentureOS <span class="brand-badge">BETA</span></div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#">Markets</a>
+        <a href="#" class="active">Blueprint</a>
+        <a href="#">Intelligence</a>
+        <a href="#">Sourcing</a>
+      </nav>
+      <div class="top-actions">
+        <div class="pill">MODE A • RESELLER</div>
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <button class="icon-btn" aria-label="Settings">⚙</button>
+        <div class="avatar">KR</div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="breadcrumb">Blueprint &nbsp;›&nbsp; New Blueprint</div>
+      <h1 class="page-title">Blueprint Generator</h1>
+      <p class="page-subtitle">Answer a few questions and get an investor-ready business blueprint powered by AI.</p>
+
+      <section class="stepper" aria-label="Blueprint steps">
+        <div class="step active">
+          <div class="step-dot">✓</div>
+          <div class="step-label">Basics</div>
+        </div>
+        <div class="step active">
+          <div class="step-dot">2</div>
+          <div class="step-label">Product &amp; Market</div>
+        </div>
+        <div class="step">
+          <div class="step-dot">3</div>
+          <div class="step-label">Financials</div>
+        </div>
+        <div class="step">
+          <div class="step-dot">4</div>
+          <div class="step-label">Review</div>
+        </div>
+      </section>
+
+      <section class="layout">
+        <section class="main-card">
+          <h2>Step 2: Product &amp; Market Intelligence</h2>
+
+          <div class="form-grid">
+            <div class="field full">
+              <div class="label">Product Idea / Core Offering</div>
+              <input class="input" value="Premium Activewear for GCC Market" />
+            </div>
+
+            <div class="field">
+              <div class="label">Business Model</div>
+              <select class="select">
+                <option selected>D2C E-commerce</option>
+                <option>Wholesale</option>
+                <option>Marketplace</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label">Primary Target Market</div>
+              <select class="select">
+                <option selected>Dubai, UAE</option>
+                <option>Riyadh, KSA</option>
+                <option>Doha, Qatar</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <div class="label">Initial Investment Budget</div>
+              <input class="input" value="BDT 50,000,000" />
+            </div>
+            <div class="field">
+              <div class="label">Team Size</div>
+              <div class="split-button-group" data-group="team-size">
+                <button class="split-button">Small (2-3)</button>
+                <button class="split-button active">Medium (4-10)</button>
+                <button class="split-button">Large (10+)</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="label">Logistics Requirements</div>
+              <input class="input" value="Warehouse Capacity" />
+            </div>
+            <div class="field">
+              <div class="label">Units</div>
+              <input class="input" value="Initial Inventory" />
+            </div>
+
+            <div class="field full">
+              <div class="label">Primary Sales Channels</div>
+              <div class="channel-grid" id="channels">
+                <label class="channel checked"><input type="checkbox" checked />Facebook Ads</label>
+                <label class="channel checked"><input type="checkbox" checked />Daraz</label>
+                <label class="channel checked"><input type="checkbox" checked />WhatsApp Commerce</label>
+                <label class="channel"><input type="checkbox" />Own Website</label>
+              </div>
+            </div>
+
+            <div class="field full">
+              <div class="toggle-row">
+                <div class="toggle-copy">
+                  <div class="title">Islamic Finance Compliance</div>
+                  <div class="desc">Ensure all generated financial models adhere to Shariah principles.</div>
+                </div>
+                <div class="switch on" id="islamicSwitch" role="switch" aria-checked="true" tabindex="0"></div>
+              </div>
+            </div>
+
+            <div class="field full">
+              <div class="label">Additional Context for AI</div>
+              <textarea class="textarea" placeholder="Any specific unfair advantages, unique supplier relationships, or niche targeting?"></textarea>
+            </div>
+          </div>
+
+          <div class="save-bar">
+            <div class="footer-note">← Back to Step 1</div>
+            <div class="actions">
+              <button class="outline-btn">Save Draft</button>
+              <button class="gold-btn">Continue to Financial Setup →</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side-stack">
+          <section class="notice-card">
+            <div class="notice-head"><span class="notice-icon">✦</span>Powered by Claude AI</div>
+            <p>Our sovereign intelligence engine processes your inputs against 118+ regional data points to generate an accurate blueprint.</p>
+          </section>
+
+          <section class="feature-card">
+            <h3>Your Blueprint Includes</h3>
+            <div class="check-list">
+              <div class="check-item"><span class="check-icon">✓</span>Executive Summary</div>
+              <div class="check-item"><span class="check-icon">✓</span>Competitor Analysis Matrix</div>
+              <div class="check-item"><span class="check-icon">✓</span>Supply Chain Logistics Plan</div>
+              <div class="check-item"><span class="check-icon">✓</span>36-Month Financial Projection</div>
+            </div>
+            <div class="tier-row">
+              <span>🔒 Free Tier Limit: <strong>1 Blueprint/mo</strong></span>
+              <a class="gold-link" href="#">Upgrade to Pro</a>
+            </div>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const switchEl = document.getElementById('islamicSwitch');
+    switchEl.addEventListener('click', () => {
+      switchEl.classList.toggle('on');
+      switchEl.setAttribute('aria-checked', switchEl.classList.contains('on') ? 'true' : 'false');
+    });
+
+    switchEl.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        switchEl.click();
+      }
+    });
+
+    document.querySelectorAll('.split-button-group').forEach((group) => {
+      group.querySelectorAll('.split-button').forEach((button) => {
+        button.addEventListener('click', () => {
+          group.querySelectorAll('.split-button').forEach((item) => item.classList.remove('active'));
+          button.classList.add('active');
+        });
+      });
+    });
+
+    document.querySelectorAll('#channels .channel').forEach((label) => {
+      const input = label.querySelector('input');
+      const sync = () => label.classList.toggle('checked', input.checked);
+      input.addEventListener('change', sync);
+      label.addEventListener('click', (event) => {
+        if (event.target !== input) {
+          event.preventDefault();
+          input.checked = !input.checked;
+          sync();
+        }
+      });
+      sync();
+    });
+  </script>
+</body>
+</html>

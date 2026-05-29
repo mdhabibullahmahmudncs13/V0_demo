@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VentureOS | Trend Detail - Wireless Earbuds Pro</title>
+  <style>
+    :root {
+      --bg: #0c0f17;
+      --bg2: #101725;
+      --panel: #121a2a;
+      --panel2: #151f33;
+      --panel3: #0f1625;
+      --border: rgba(255, 224, 146, 0.12);
+      --border2: rgba(255, 224, 146, 0.22);
+      --text: #f0f2f8;
+      --muted: #8c96ad;
+      --muted2: #677086;
+      --gold: #f2c55d;
+      --gold2: #d9aa3d;
+      --gold3: #ffdd8f;
+      --cyan: #4dd0e1;
+      --green: #86e39c;
+      --red: #f38c8c;
+      --shadow: 0 16px 40px rgba(0, 0, 0, 0.38);
+      --font-ui: "Segoe UI", Arial, Helvetica, sans-serif;
+      --font-display: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(242, 197, 93, 0.08), transparent 24%),
+        radial-gradient(circle at 90% 0%, rgba(92, 126, 255, 0.06), transparent 18%),
+        linear-gradient(180deg, #181818 0%, #0f1116 100%);
+      color: var(--text);
+      font-family: var(--font-ui);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 85%);
+    }
+
+    .shell {
+      width: min(1260px, calc(100vw - 28px));
+      margin: 10px auto 16px;
+      border: 1px solid rgba(255,255,255,0.03);
+      background: rgba(6, 10, 18, 0.86);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .top-title {
+      padding: 10px 18px 6px;
+      font-size: 14px;
+      color: rgba(232, 236, 243, 0.52);
+      letter-spacing: -0.1px;
+    }
+
+    .topbar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 18px;
+      background: linear-gradient(180deg, rgba(37, 27, 12, 0.98), rgba(24, 20, 13, 0.98));
+      border-top: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      color: #ffd87a;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .brand-badge {
+      font-size: 8px;
+      color: #1d1405;
+      background: var(--gold);
+      padding: 2px 4px;
+      border-radius: 2px;
+      letter-spacing: 0.8px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+      align-items: center;
+    }
+
+    .nav a {
+      color: rgba(234, 238, 248, 0.72);
+      text-decoration: none;
+      font-size: 10.5px;
+      padding: 5px 7px;
+      border-radius: 2px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #fff;
+      background: rgba(242, 197, 93, 0.12);
+    }
+
+    .nav a.active {
+      border-bottom: 2px solid var(--gold);
+      border-radius: 0;
+      padding-bottom: 3px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 9px;
+      color: #e2e6ef;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+      padding: 3px 7px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .icon-btn,
+    .avatar {
+      width: 19px;
+      height: 19px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: #edf2ff;
+      border-radius: 50%;
+      font-size: 10px;
+    }
+
+    .avatar {
+      border-radius: 50%;
+      background: linear-gradient(180deg, #f5dd8c, #ce9c2d);
+      color: #1f1707;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 10px 14px 10px;
+    }
+
+    .breadcrumb {
+      color: #7e879b;
+      font-size: 10px;
+      margin: 2px 0 10px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn,
+    .primary-btn,
+    .gold-btn,
+    .outline-btn {
+      height: 20px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      color: #e9edf8;
+      font-size: 9.5px;
+      padding: 0 9px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .primary-btn,
+    .gold-btn {
+      background: linear-gradient(180deg, #f5cf70, #d9ab42);
+      color: #221607;
+      border-color: rgba(255, 224, 146, 0.8);
+      font-weight: 800;
+    }
+
+    .outline-btn {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(11, 15, 25, 0.98));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .hero-main {
+      padding: 16px 16px 12px;
+      position: relative;
+    }
+
+    .eyebrow {
+      color: #a7b0c5;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 25px;
+      line-height: 1.04;
+      color: #ffffff;
+    }
+
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 9px;
+      color: #dbe1ef;
+      border: 1px solid rgba(255,255,255,0.11);
+      background: rgba(255,255,255,0.03);
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+
+    .tag.gold {
+      color: #fce08a;
+      border-color: rgba(242, 197, 93, 0.3);
+      background: rgba(242, 197, 93, 0.08);
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 10px;
+    }
+
+    .status-card {
+      padding: 10px 11px 12px;
+      min-height: 74px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .status-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-badge {
+      font-size: 10px;
+      font-weight: 800;
+      color: #2a1a05;
+      background: linear-gradient(180deg, #f6d374, #d3a03a);
+      padding: 4px 8px;
+      border-radius: 2px;
+    }
+
+    .status-note {
+      color: #c9cfde;
+      font-size: 10px;
+      text-align: right;
+      line-height: 1.25;
+    }
+
+    .stats {
+      display: grid;
+      gap: 4px;
+    }
+
+    .stat-line {
+      display: flex;
+      justify-content: space-between;
+      color: #d5dbea;
+      font-size: 10px;
+    }
+
+    .stat-line b {
+      color: #fff;
+      font-size: 11px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      padding: 10px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: #f4f6fb;
+    }
+
+    .card-title .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(242, 197, 93, 0.16);
+      border: 1px solid rgba(242, 197, 93, 0.45);
+      color: #f9db8e;
+      font-size: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-sub {
+      color: #8a93a8;
+      font-size: 9px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 215px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      margin-top: 4px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .chart-legend {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 9px;
+      color: #adb6c8;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 2px rgba(242, 197, 93, 0.1);
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .insight {
+      display: grid;
+      gap: 10px;
+      padding: 10px;
+      min-height: 198px;
+    }
+
+    .insight-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #ffe2a0;
+    }
+
+    .insight-head .icon {
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(242, 197, 93, 0.12);
+      border: 1px solid rgba(242, 197, 93, 0.32);
+      font-size: 9px;
+    }
+
+    .insight p {
+      margin: 0;
+      color: #d9dfec;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .bullets {
+      display: grid;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .bullet {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 8px;
+      align-items: start;
+      color: #cfd5e4;
+      font-size: 9.5px;
+      line-height: 1.35;
+    }
+
+    .bullet::before {
+      content: "•";
+      color: #f0c55e;
+      font-size: 14px;
+      line-height: 1;
+      margin-top: -1px;
+    }
+
+    .button-row {
+      margin-top: auto;
+    }
+
+    .button-row .gold-btn {
+      width: 100%;
+      justify-content: center;
+      height: 28px;
+      font-size: 10px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .subgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .list-card {
+      padding: 10px;
+      min-height: 150px;
+    }
+
+    .list-card h3 {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: #f2f4fa;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .bar-item {
+      display: grid;
+      gap: 4px;
+    }
+
+    .bar-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: #d6dbea;
+      font-size: 9.5px;
+    }
+
+    .bar {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+    }
+
+    .small-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mini-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 9.5px;
+      color: #d9dfeb;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 7px;
+    }
+
+    .mini-item:last-child { border-bottom: 0; padding-bottom: 0; }
+
+    .mini-item span:last-child {
+      color: #f2c55d;
+    }
+
+    .lifecycle {
+      padding: 10px;
+      min-height: 182px;
+    }
+
+    .timeline {
+      margin-top: 8px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 14px 1fr;
+      gap: 8px;
+      align-items: start;
+      color: #dce1ec;
+      font-size: 10px;
+    }
+
+    .step .marker {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 1px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+    }
+
+    .step.active .marker {
+      background: rgba(242, 197, 93, 0.15);
+      border-color: rgba(242, 197, 93, 0.45);
+      box-shadow: 0 0 0 3px rgba(242, 197, 93, 0.06);
+    }
+
+    .step.active {
+      color: #fff2c5;
+    }
+
+    .step small {
+      display: block;
+      color: #8891a4;
+      font-size: 8.5px;
+      margin-top: 1px;
+    }
+
+    .related {
+      padding: 10px;
+      min-height: 150px;
+    }
+
+    .related-list {
+      margin-top: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .related-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      color: #e2e6f1;
+      font-size: 9.5px;
+    }
+
+    .related-item .trend-up {
+      color: #9df0ad;
+    }
+
+    .footerbar {
+      margin-top: 12px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(16, 22, 36, 0.98), rgba(10, 14, 24, 0.98));
+      gap: 10px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .footer-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: #f3f5fb;
+      white-space: nowrap;
+    }
+
+    .footer-meta {
+      color: #91a0ba;
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-actions .mini-btn,
+    .footer-actions .primary-btn,
+    .footer-actions .outline-btn {
+      height: 22px;
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .grid,
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .subgrid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100vw - 10px, 100%);
+        margin: 5px auto;
+      }
+
+      .topbar {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 8px 10px;
+      }
+
+      .nav {
+        order: 3;
+        flex-basis: 100%;
+        overflow-x: auto;
+      }
+
+      .toolbar,
+      .footerbar {
+        height: auto;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        flex-wrap: wrap;
+      }
+
+      .footerbar {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top-title">VentureOS | Trend Detail: Wireless Earbuds Pro</div>
+
+    <header class="topbar">
+      <div class="brand">VentureOS <span class="brand-badge">BETA</span></div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#">Dashboard</a>
+        <a href="#">Products</a>
+        <a href="#" class="active">Market</a>
+        <a href="#">Blueprint</a>
+        <a href="#">Shipping</a>
+        <a href="#">Tracking</a>
+        <a href="#">SEO</a>
+        <a href="#">Settings</a>
+      </nav>
+      <div class="top-actions">
+        <div class="pill">AI BETA</div>
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <button class="icon-btn" aria-label="Settings">⚙</button>
+        <div class="avatar">KR</div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="breadcrumb">Market Intelligence &gt; Trending Products &gt; Wireless Earbuds Pro</div>
+
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <button class="mini-btn">← Back to Trends</button>
+          <button class="mini-btn">Save to Watchlist</button>
+        </div>
+        <div class="toolbar-right">
+          <button class="gold-btn">✦ Start Sourcing</button>
+        </div>
+      </div>
+
+      <section class="hero">
+        <div class="panel hero-main">
+          <div class="eyebrow">Electronics &nbsp;•&nbsp; Updated 2 hours ago</div>
+          <h1>Wireless Earbuds Pro</h1>
+          <div class="tags">
+            <span class="tag">Signals</span>
+            <span class="tag gold">TikTok</span>
+            <span class="tag gold">Google Trends</span>
+            <span class="tag gold">PPC demand</span>
+            <span class="tag gold">Amazon USA</span>
+          </div>
+        </div>
+        <div class="hero-side">
+          <div class="panel status-card">
+            <div class="status-top">
+              <div class="status-badge">AT PEAK</div>
+              <div class="status-note">Growth Rate<br><b style="color:#f7deb0;font-size:11px;">+47% vs. last 30 days</b></div>
+            </div>
+            <div class="stats">
+              <div class="stat-line"><span>ACV Score</span><b>78%</b></div>
+              <div class="stat-line"><span>Data confidence</span><b>91%</b></div>
+              <div class="stat-line"><span>Window</span><b>12 days remaining</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="panel card">
+          <div class="card-header">
+            <div class="card-title"><span class="dot">◎</span>Demand Trajectory</div>
+            <div class="card-sub">2024 Trendline · 2023 comparison</div>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot"></span>2024</span>
+              <span class="legend-item" style="opacity:.72"><span class="legend-dot" style="background:#f0d79c"></span>2023</span>
+            </div>
+            <canvas id="trendChart" width="900" height="360"></canvas>
+          </div>
+        </div>
+
+        <div class="side-stack">
+          <div class="panel insight">
+            <div>
+              <div class="insight-head"><span class="icon">◎</span>Act within the next 2-3 weeks.</div>
+              <p>Demand is peaking. Clean supply with fast shipping is beginning to taper. Window of opportunity is closing rapidly.</p>
+            </div>
+            <div class="bullets">
+              <div class="bullet">Order burst launch immediately</div>
+              <div class="bullet">Set target price: ৳100-140</div>
+              <div class="bullet">Launch targeted FB ad next week</div>
+            </div>
+            <div class="button-row"><button class="gold-btn">A. Generate Full Blueprint</button></div>
+          </div>
+
+          <div class="panel lifecycle">
+            <div class="card-title" style="margin-bottom:4px;"><span class="dot">◎</span>Trend Lifecycle</div>
+            <div class="timeline">
+              <div class="step"><span class="marker"></span><div>Emerging<small>64 days ago</small></div></div>
+              <div class="step"><span class="marker"></span><div>Rising<small>18 days ago</small></div></div>
+              <div class="step active"><span class="marker"></span><div>At Peak (Current)<small>best time to sell</small></div></div>
+              <div class="step"><span class="marker"></span><div>Declining<small>soon</small></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-grid">
+        <div class="subgrid">
+          <div class="panel list-card">
+            <h3>Platform Breakdown (Signal Strength)</h3>
+            <div class="bar-list">
+              <div class="bar-item" style="--w:68%;--c1:#4dd0e1;--c2:#4dd0e1;">
+                <div class="bar-top"><span>FB Ads</span><span>68%</span></div>
+                <div class="bar"><span></span></div>
+              </div>
+              <div class="bar-item" style="--w:82%;--c1:#46bdf4;--c2:#46bdf4;">
+                <div class="bar-top"><span>TikTok</span><span>82%</span></div>
+                <div class="bar"><span></span></div>
+              </div>
+              <div class="bar-item" style="--w:77%;--c1:#ff9f45;--c2:#ff9f45;">
+                <div class="bar-top"><span>PDD</span><span>77%</span></div>
+                <div class="bar"><span></span></div>
+              </div>
+              <div class="bar-item" style="--w:81%;--c1:#f38c8c;--c2:#f38c8c;">
+                <div class="bar-top"><span>Google Trends</span><span>81%</span></div>
+                <div class="bar"><span></span></div>
+              </div>
+              <div class="bar-item" style="--w:88%;--c1:#f2c55d;--c2:#f2c55d;">
+                <div class="bar-top"><span>Amazon USA</span><span>88%</span></div>
+                <div class="bar"><span></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel list-card">
+            <h3>Top Social Hashtags</h3>
+            <div class="mini-list">
+              <div class="mini-item"><span>#wirelessearbuds</span><span>14%</span></div>
+              <div class="mini-item"><span>#twsbuds</span><span>11%</span></div>
+              <div class="mini-item"><span>#techfinds</span><span>9%</span></div>
+              <div class="mini-item"><span>#budgetaudio</span><span>7%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel related">
+          <h3 class="card-title" style="margin:0 0 6px;"><span class="dot">◎</span>Related Trends</h3>
+          <div class="related-list">
+            <div class="related-item"><span>TWS Cases</span><span class="trend-up">+46%</span></div>
+            <div class="related-item"><span>Phone Stands</span><span class="trend-up">+28%</span></div>
+            <div class="related-item"><span>USB-C Chargers</span><span class="trend-up">+21%</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-grid" style="margin-top:12px;grid-template-columns:1fr 1fr;">
+        <div class="panel list-card">
+          <h3>Top Google Keywords</h3>
+          <div class="mini-list">
+            <div class="mini-item"><span>wireless earbuds pro</span><span>32.8k</span></div>
+            <div class="mini-item"><span>best budget tws 2024</span><span>9.2k</span></div>
+            <div class="mini-item"><span>earbuds price in bd</span><span>38.1k</span></div>
+          </div>
+        </div>
+
+        <div class="panel list-card">
+          <h3>Top Social Hashtags</h3>
+          <div class="mini-list">
+            <div class="mini-item"><span>#wirelessearbuds #techgadgets</span><span>7%</span></div>
+            <div class="mini-item"><span>#fyp #audiogear</span><span>11%</span></div>
+            <div class="mini-item"><span>#budgetfinds #shop</span><span>13%</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footerbar">
+        <div class="footer-left">
+          <div class="footer-title">Wireless Earbuds Pro</div>
+          <div class="footer-meta">At Peak · +38% MoM · Amazon/Google verified</div>
+        </div>
+        <div class="footer-actions">
+          <button class="mini-btn">Save to Watchlist</button>
+          <button class="outline-btn">View Sourcing</button>
+          <button class="primary-btn">⚠ Generate Blueprint</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('trendChart');
+    const ctx = canvas.getContext('2d');
+
+    const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
+    const trend2024 = [26, 31, 39, 36, 34, 41, 50, 46];
+    const trend2023 = [18, 21, 24, 23, 21, 22, 25, 24];
+
+    function resizeCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const { width, height } = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.round(width * ratio));
+      canvas.height = Math.max(1, Math.round(height * ratio));
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      drawChart();
+    }
+
+    function drawGrid(w, h, pad) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 4; i++) {
+        const y = pad.top + (h / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(w - pad.right, y);
+        ctx.stroke();
+      }
+    }
+
+    function smoothPath(points) {
+      if (points.length < 2) return '';
+      let d = `M ${points[0].x} ${points[0].y}`;
+      for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i - 1] || points[i];
+        const p1 = points[i];
+        const p2 = points[i + 1];
+        const p3 = points[i + 2] || p2;
+        const cp1x = p1.x + (p2.x - p0.x) / 6;
+        const cp1y = p1.y + (p2.y - p0.y) / 6;
+        const cp2x = p2.x - (p3.x - p1.x) / 6;
+        const cp2y = p2.y - (p3.y - p1.y) / 6;
+        d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+      }
+      return d;
+    }
+
+    function buildPoints(data, w, h, pad, maxValue) {
+      const chartW = w - pad.left - pad.right;
+      const chartH = h - pad.top - pad.bottom;
+      return data.map((value, index) => ({
+        x: pad.left + (index / (data.length - 1)) * chartW,
+        y: pad.top + (1 - value / maxValue) * chartH,
+        value,
+      }));
+    }
+
+    function drawLine(points, stroke, fill, lastLabel) {
+      if (!points.length) return;
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+      const pad = { left: 18, right: 20, top: 18, bottom: 34 };
+
+      const linePath = smoothPath(points);
+      const fillPath = `${linePath} L ${points[points.length - 1].x} ${h - pad.bottom} L ${points[0].x} ${h - pad.bottom} Z`;
+
+      const gradient = ctx.createLinearGradient(0, pad.top, 0, h - pad.bottom);
+      gradient.addColorStop(0, fill);
+      gradient.addColorStop(1, 'rgba(242, 197, 93, 0.00)');
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      new Path2D(fillPath);
+      const fillShape = new Path2D(fillPath);
+      ctx.fill(fillShape);
+
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      const lineShape = new Path2D(linePath);
+      ctx.stroke(lineShape);
+
+      ctx.fillStyle = '#ffd98a';
+      points.forEach((point, index) => {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, index === points.length - 2 ? 3.2 : 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      const labelsY = h - 15;
+      ctx.fillStyle = '#6f778a';
+      ctx.font = '9px Segoe UI, Arial, sans-serif';
+      labels.forEach((label, index) => {
+        const x = pad.left + (index / (labels.length - 1)) * (w - pad.left - pad.right);
+        ctx.fillText(label, x - 8, labelsY);
+      });
+
+      const peakIndex = points.reduce((best, point, index) => point.value > points[best].value ? index : best, 0);
+      const peak = points[peakIndex];
+      ctx.fillStyle = '#ffe39b';
+      ctx.font = '10px Segoe UI, Arial, sans-serif';
+      ctx.fillText('Peak 24', peak.x - 10, peak.y - 10);
+
+      if (lastLabel) {
+        ctx.fillText(lastLabel, points[points.length - 1].x - 14, points[points.length - 1].y - 10);
+      }
+    }
+
+    function drawChart() {
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+      ctx.clearRect(0, 0, w, h);
+
+      const pad = { left: 18, right: 20, top: 18, bottom: 34 };
+      const maxValue = 60;
+
+      drawGrid(w, h, pad);
+
+      const points2023 = buildPoints(trend2023, w, h, pad, maxValue);
+      const points2024 = buildPoints(trend2024, w, h, pad, maxValue);
+
+      drawLine(points2023, 'rgba(242, 215, 156, 0.45)', 'rgba(242, 215, 156, 0.08)', null);
+      drawLine(points2024, 'rgba(242, 197, 93, 0.95)', 'rgba(242, 197, 93, 0.16)', 'Peak 24');
+    }
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
+  </script>
+</body>
+</html>

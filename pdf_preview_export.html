@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VentureOS | PDF Preview &amp; Export</title>
+  <style>
+    :root {
+      --bg: #0b0f18;
+      --bg-soft: #101523;
+      --panel: #12192a;
+      --panel-2: #151f33;
+      --panel-3: #0f1625;
+      --border: rgba(255, 224, 146, 0.10);
+      --border-strong: rgba(255, 224, 146, 0.24);
+      --gold: #f2c55d;
+      --gold-2: #d7a23e;
+      --gold-soft: rgba(242, 197, 93, 0.12);
+      --text: #edf1f8;
+      --muted: #8b95ab;
+      --muted-2: #687285;
+      --shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+      --font-ui: "Segoe UI", Arial, Helvetica, sans-serif;
+      --font-display: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(242, 197, 93, 0.08), transparent 24%),
+        radial-gradient(circle at 90% 0%, rgba(92, 126, 255, 0.05), transparent 18%),
+        linear-gradient(180deg, #181818 0%, #111318 100%);
+      color: var(--text);
+      font-family: var(--font-ui);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 85%);
+    }
+
+    .shell {
+      width: min(1260px, calc(100vw - 28px));
+      margin: 10px auto 16px;
+      border: 1px solid rgba(255,255,255,0.03);
+      background: rgba(6, 10, 18, 0.88);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .titlebar {
+      padding: 10px 18px 6px;
+      color: rgba(233, 237, 246, 0.5);
+      font-size: 14px;
+      letter-spacing: -0.1px;
+    }
+
+    .topbar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 18px;
+      background: linear-gradient(180deg, rgba(37, 27, 12, 0.98), rgba(24, 20, 13, 0.98));
+      border-top: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      color: #ffd87a;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .brand-badge {
+      font-size: 8px;
+      color: #1d1405;
+      background: var(--gold);
+      padding: 2px 4px;
+      border-radius: 2px;
+      letter-spacing: 0.8px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+      align-items: center;
+    }
+
+    .nav a {
+      color: rgba(234, 238, 248, 0.72);
+      text-decoration: none;
+      font-size: 10.5px;
+      padding: 5px 7px;
+      border-radius: 2px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #fff;
+      background: rgba(242, 197, 93, 0.12);
+    }
+
+    .nav a.active {
+      border-bottom: 2px solid var(--gold);
+      border-radius: 0;
+      padding-bottom: 3px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 9px;
+      color: #e2e6ef;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.04);
+      padding: 3px 7px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .icon-btn,
+    .avatar {
+      width: 19px;
+      height: 19px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: #edf2ff;
+      border-radius: 50%;
+      font-size: 10px;
+    }
+
+    .avatar {
+      background: linear-gradient(180deg, #f5dd8c, #ce9c2d);
+      color: #1f1707;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 10px 14px 14px;
+    }
+
+    .breadcrumb {
+      color: #7f889d;
+      font-size: 9.5px;
+      margin: 0 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+
+    .hero p {
+      margin: 5px 0 0;
+      color: #8d96ab;
+      font-size: 10px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn,
+    .gold-btn,
+    .outline-btn {
+      height: 22px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #edf2ff;
+      font-size: 9.5px;
+      padding: 0 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .gold-btn {
+      background: linear-gradient(180deg, #f5cf70, #d9ab42);
+      color: #221607;
+      border-color: rgba(255, 227, 155, 0.85);
+      font-weight: 800;
+    }
+
+    .gold-btn:hover,
+    .outline-btn:hover,
+    .mini-btn:hover {
+      filter: brightness(1.03);
+      border-color: rgba(242, 197, 93, 0.32);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 274px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(11, 15, 25, 0.98));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .leftcol {
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px 0;
+    }
+
+    .panel-head h3 {
+      margin: 0;
+      font-size: 12px;
+      color: #f4f6fb;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .panel-head .icon {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.03);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #cdd3e1;
+    }
+
+    .settings {
+      padding-bottom: 10px;
+    }
+
+    .form {
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .label {
+      color: #98a2b5;
+      font-size: 9px;
+      letter-spacing: 0.2px;
+    }
+
+    .input,
+    .textarea,
+    .select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(9, 13, 22, 0.9);
+      color: #eef2fb;
+      font-size: 10px;
+      padding: 9px 10px;
+      outline: none;
+      font-family: var(--font-ui);
+    }
+
+    .textarea {
+      resize: none;
+      min-height: 74px;
+      line-height: 1.4;
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+      color: #5d6578;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .theme-card {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      padding: 10px 8px;
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: #cbd2e0;
+      font-size: 9px;
+    }
+
+    .theme-card.active {
+      border-color: rgba(242, 197, 93, 0.4);
+      background: rgba(242, 197, 93, 0.1);
+      color: #ffe5a0;
+    }
+
+    .swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: linear-gradient(180deg, #1a2234, #0c121f);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 11px;
+    }
+
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .switch-copy {
+      display: grid;
+      gap: 2px;
+    }
+
+    .switch-copy .title {
+      color: #e7ebf5;
+      font-size: 10px;
+    }
+
+    .switch-copy .desc {
+      color: #8c96ab;
+      font-size: 9px;
+      line-height: 1.35;
+    }
+
+    .toggle {
+      width: 34px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.11);
+      border: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .toggle::after {
+      content: "";
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #efc965, #d8a73d);
+      transition: transform 0.18s ease;
+    }
+
+    .toggle.on {
+      background: rgba(242, 197, 93, 0.28);
+      border-color: rgba(242, 197, 93, 0.55);
+    }
+
+    .toggle.on::after {
+      transform: translateX(16px);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #d8deec;
+      font-size: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .check-item input {
+      width: 11px;
+      height: 11px;
+      margin: 0;
+      accent-color: var(--gold);
+      flex: 0 0 auto;
+    }
+
+    .helper {
+      padding: 0 10px 10px;
+      color: #818aa0;
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .share-box {
+      padding-bottom: 10px;
+    }
+
+    .share-section {
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .share-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .share-label {
+      font-size: 10px;
+      color: #f1f4fb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .share-badge {
+      font-size: 8px;
+      color: #9aa3b6;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 2px 4px;
+      border-radius: 2px;
+    }
+
+    .copy-field {
+      position: relative;
+    }
+
+    .copy-input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(9, 13, 22, 0.9);
+      color: #7f889b;
+      font-size: 9px;
+      padding: 9px 26px 9px 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: #9facc7;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .email-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .send-btn {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #edf2fb;
+      font-size: 9.5px;
+      padding: 0 10px;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .whatsapp-btn {
+      width: 100%;
+      margin-top: 2px;
+      border: 1px solid rgba(77, 208, 110, 0.35);
+      background: rgba(77, 208, 110, 0.08);
+      color: #81e29a;
+      font-size: 10px;
+      padding: 7px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .maincol {
+      display: grid;
+      gap: 12px;
+    }
+
+    .preview-panel {
+      padding: 10px;
+    }
+
+    .preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .preview-top .title {
+      font-size: 12px;
+      color: #f4f6fb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preview-top .controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #b3bccf;
+      font-size: 9px;
+    }
+
+    .preview-stage {
+      height: 428px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, rgba(10, 14, 24, 0.82), rgba(6, 9, 17, 0.92));
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .document {
+      width: 292px;
+      height: 392px;
+      background: linear-gradient(180deg, #0f1421 0%, #0b101a 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.38);
+      position: relative;
+      overflow: hidden;
+      padding: 18px 16px;
+    }
+
+    .doc-line {
+      height: 5px;
+      background: linear-gradient(90deg, #f2c55d, #d7a23e);
+      margin-bottom: 22px;
+    }
+
+    .doc-hero {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+      text-align: left;
+      padding: 0 5px;
+    }
+
+    .doc-kicker {
+      color: #b1b8ca;
+      font-size: 8px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .doc-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .doc-subtitle {
+      color: #a9b1c4;
+      font-size: 10px;
+      border-left: 2px solid rgba(242, 197, 93, 0.55);
+      padding-left: 8px;
+      margin-top: -1px;
+    }
+
+    .doc-metrics {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .metric {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      padding: 10px 8px;
+      min-height: 52px;
+      display: grid;
+      gap: 4px;
+      align-content: start;
+    }
+
+    .metric .label {
+      font-size: 8px;
+      color: #8790a5;
+      text-transform: uppercase;
+    }
+
+    .metric .value {
+      color: #ffe9ab;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .metric .small {
+      font-size: 9px;
+      color: #bac2d4;
+    }
+
+    .watermark {
+      position: absolute;
+      left: 24px;
+      top: 198px;
+      transform: rotate(-44deg);
+      color: rgba(255,255,255,0.05);
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .doc-footer {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #96a0b6;
+      font-size: 8px;
+    }
+
+    .doc-footer .page {
+      border: 1px solid rgba(255,255,255,0.12);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+    }
+
+    .pager {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      color: #8b95ab;
+      font-size: 8px;
+    }
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
+      display: inline-block;
+    }
+
+    .dot.active {
+      background: var(--gold);
+      box-shadow: 0 0 0 3px rgba(242, 197, 93, 0.08);
+    }
+
+    .structure {
+      padding: 10px;
+    }
+
+    .structure h3 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      color: #f4f6fb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .structure-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      color: #cfd5e4;
+      font-size: 9px;
+    }
+
+    .structure-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .structure-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 6px;
+    }
+
+    .structure-item:last-child { border-bottom: 0; padding-bottom: 0; }
+
+    .structure-item span:last-child {
+      color: #9fb0cf;
+    }
+
+    .footerbar {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(16, 22, 36, 0.98), rgba(10, 14, 24, 0.98));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-left {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .footer-title {
+      font-size: 10px;
+      color: #f5f7fd;
+    }
+
+    .footer-meta {
+      font-size: 8.5px;
+      color: #8a93a8;
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .footer-actions .mini-btn,
+    .footer-actions .outline-btn,
+    .footer-actions .gold-btn {
+      height: 24px;
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .leftcol {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100vw - 10px, 100%);
+        margin: 5px auto;
+      }
+
+      .topbar {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 8px 10px;
+      }
+
+      .nav {
+        order: 3;
+        flex-basis: 100%;
+        overflow-x: auto;
+      }
+
+      .content {
+        padding: 10px;
+      }
+
+      .hero,
+      .footerbar,
+      .email-row,
+      .row-2,
+      .split {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .preview-stage {
+        height: 360px;
+      }
+
+      .document {
+        transform: scale(0.88);
+        transform-origin: center center;
+      }
+
+      .structure-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="titlebar">VentureOS | PDF Preview &amp; Export</div>
+
+    <header class="topbar">
+      <div class="brand">VentureOS <span class="brand-badge">BETA</span></div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#">Dashboard</a>
+        <a href="#">Products</a>
+        <a href="#">Market</a>
+        <a href="#" class="active">Blueprint</a>
+        <a href="#">Shipping</a>
+        <a href="#">Tracking</a>
+        <a href="#">SEO</a>
+        <a href="#">Settings</a>
+      </nav>
+      <div class="top-actions">
+        <div class="pill">MODE A · RESELLER</div>
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <div class="avatar">KR</div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="breadcrumb">BLUEPRINT &nbsp;›&nbsp; WIRELESS EARBUDS &nbsp;›&nbsp; DHAKA &nbsp;›&nbsp; PDF PREVIEW</div>
+      <div class="hero">
+        <div>
+          <h1>PDF Preview &amp; Export</h1>
+          <p>Review this blueprint before downloading or sharing.</p>
+        </div>
+        <div class="toolbar">
+          <button class="mini-btn">← Back to Blueprint</button>
+          <button class="mini-btn">Copy Share Link</button>
+          <button class="gold-btn">⬇ Download PDF</button>
+        </div>
+      </div>
+
+      <section class="layout">
+        <aside class="leftcol">
+          <section class="panel settings">
+            <div class="panel-head">
+              <h3><span class="icon">☰</span>Export Settings</h3>
+            </div>
+            <div class="form">
+              <div class="field">
+                <div class="label">Document Title</div>
+                <input class="input" value="Wireless Earbuds Business Plan" />
+              </div>
+
+              <div class="field">
+                <div class="label">Prepared For</div>
+                <input class="input" value="e.g. Investor Brand" />
+              </div>
+
+              <div class="row-2">
+                <div class="field">
+                  <div class="label">Report Date</div>
+                  <input class="input" value="05/14/2024" />
+                </div>
+                <div class="field">
+                  <div class="label">Language</div>
+                  <select class="select input">
+                    <option selected>EN</option>
+                    <option>BN</option>
+                    <option>AR</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="label">Color Theme</div>
+                <div class="color-grid" id="themeGrid">
+                  <div class="theme-card active" data-theme="dark">
+                    <div class="swatch">◐</div>
+                    <div>Dark</div>
+                  </div>
+                  <div class="theme-card" data-theme="light">
+                    <div class="swatch">◑</div>
+                    <div>Light</div>
+                  </div>
+                  <div class="theme-card" data-theme="minimal">
+                    <div class="swatch">◒</div>
+                    <div>Minimal</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="label">Include Sections</div>
+                <div class="check-list">
+                  <label class="check-item"><input type="checkbox" checked />Cover Page (Branded)</label>
+                  <label class="check-item"><input type="checkbox" checked />Executive Summary</label>
+                  <label class="check-item"><input type="checkbox" checked />Market Analysis</label>
+                  <label class="check-item"><input type="checkbox" checked />Financial Projections</label>
+                  <label class="check-item"><input type="checkbox" />Appendix &amp; Raw Data</label>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="switch-row">
+                  <div class="switch-copy">
+                    <div class="title">Add Watermark</div>
+                    <div class="desc">“Confidential - Not for Distribution”</div>
+                  </div>
+                  <div class="toggle on" id="watermarkToggle" role="switch" aria-checked="true" tabindex="0"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel share-box">
+            <div class="panel-head">
+              <h3><span class="icon">↗</span>Share Access</h3>
+              <div class="share-badge">restricted</div>
+            </div>
+            <div class="share-section">
+              <div class="field">
+                <div class="label">Direct Link</div>
+                <div class="copy-field">
+                  <input class="copy-input" value="https://ventureos.app/share/blueprint/24-56-8a" readonly />
+                  <button class="copy-btn" id="copyBtn" aria-label="Copy link">⧉</button>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="label">Email Invite</div>
+                <div class="email-row">
+                  <input class="input" value="investor@company.com" />
+                  <button class="send-btn">Send</button>
+                </div>
+              </div>
+
+              <button class="whatsapp-btn">Share via WhatsApp</button>
+            </div>
+          </section>
+        </aside>
+
+        <section class="maincol">
+          <section class="panel preview-panel">
+            <div class="preview-top">
+              <div class="title"><span class="icon">▣</span>Preview</div>
+              <div class="controls">
+                <span>‹</span>
+                <span>2 / 14</span>
+                <span>›</span>
+                <span style="margin-left:10px;">100%</span>
+                <span style="font-size:12px;">⚙</span>
+                <span style="font-size:12px;">⤢</span>
+              </div>
+            </div>
+
+            <div class="preview-stage">
+              <div class="document" id="documentPreview">
+                <div class="doc-line"></div>
+                <div class="doc-hero">
+                  <div class="doc-kicker">VentureOS Intelligence</div>
+                  <h2 class="doc-title">Wireless Earbuds</h2>
+                  <div class="doc-subtitle">Reseller Business Plan — Dhaka</div>
+                </div>
+
+                <div class="doc-metrics">
+                  <div class="metric">
+                    <div class="label">Est. Budget</div>
+                    <div class="value">$45,000</div>
+                    <div class="small">Setup capital</div>
+                  </div>
+                  <div class="metric">
+                    <div class="label">Mode</div>
+                    <div class="value">Reseller</div>
+                    <div class="small">Business model</div>
+                  </div>
+                  <div class="metric">
+                    <div class="label">Duration</div>
+                    <div class="value">12 Months</div>
+                    <div class="small">Projection</div>
+                  </div>
+                </div>
+
+                <div class="watermark" id="watermarkText">CONFIDENTIAL</div>
+
+                <div class="doc-footer">
+                  <div>Prepared on<br>May 14, 2024</div>
+                  <div class="page">1</div>
+                </div>
+              </div>
+            </div>
+            <div class="pager" aria-label="Preview pages">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span>1/14</span>
+            </div>
+          </section>
+
+          <section class="panel structure">
+            <h3><span class="icon">▣</span>Document Structure</h3>
+            <div class="structure-grid">
+              <div class="structure-list">
+                <div class="structure-item"><span>1.0 Executive Summary</span><span>02</span></div>
+                <div class="structure-item"><span>2.0 Market Landscape</span><span>04</span></div>
+                <div class="structure-item"><span>3.0 Competitive Analysis</span><span>06</span></div>
+                <div class="structure-item"><span>4.0 Sourcing Strategy</span><span>08</span></div>
+                <div class="structure-item"><span>5.0 Go-to-Market Plan</span><span>12</span></div>
+              </div>
+              <div class="structure-list">
+                <div class="structure-item"><span>6.0 Margin Model</span><span>14</span></div>
+                <div class="structure-item"><span>7.0 Pricing Matrix</span><span>17</span></div>
+                <div class="structure-item"><span>8.0 Financial Projections</span><span>21</span></div>
+                <div class="structure-item"><span>9.0 Launch Timeline</span><span>32</span></div>
+                <div class="structure-item"><span>10.0 Appendix</span><span>34</span></div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </section>
+
+      <div class="footerbar">
+        <div class="footer-left">
+          <div class="footer-title">Wireless Earbuds Business Plan</div>
+          <div class="footer-meta">Draft ready for export and sharing</div>
+        </div>
+        <div class="footer-actions">
+          <button class="mini-btn">Share</button>
+          <button class="outline-btn">View Preview</button>
+          <button class="gold-btn">⬇ Generate PDF</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const watermarkToggle = document.getElementById('watermarkToggle');
+    const watermarkText = document.getElementById('watermarkText');
+    const copyBtn = document.getElementById('copyBtn');
+
+    watermarkToggle.addEventListener('click', () => {
+      watermarkToggle.classList.toggle('on');
+      const active = watermarkToggle.classList.contains('on');
+      watermarkToggle.setAttribute('aria-checked', active ? 'true' : 'false');
+      watermarkText.style.display = active ? 'block' : 'none';
+    });
+
+    watermarkToggle.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        watermarkToggle.click();
+      }
+    });
+
+    document.querySelectorAll('[data-theme]').forEach((card) => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('[data-theme]').forEach((item) => item.classList.remove('active'));
+        card.classList.add('active');
+      });
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const value = copyBtn.previousElementSibling.value;
+      try {
+        await navigator.clipboard.writeText(value);
+        copyBtn.textContent = '✓';
+        window.setTimeout(() => { copyBtn.textContent = '⧉'; }, 900);
+      } catch {
+        copyBtn.textContent = '!';
+        window.setTimeout(() => { copyBtn.textContent = '⧉'; }, 900);
+      }
+    });
+  </script>
+</body>
+</html>

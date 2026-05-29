@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VentureOS | Ad Performance Dashboard</title>
+  <style>
+    :root {
+      --bg: #0a1020;
+      --bg2: #0f1730;
+      --panel: #111a31;
+      --panel2: #131d37;
+      --panel3: #0d1529;
+      --border: rgba(255, 203, 71, 0.14);
+      --border-strong: rgba(255, 203, 71, 0.38);
+      --gold: #f7c845;
+      --gold2: #d9a533;
+      --green: #45e0a1;
+      --green2: #2ad39b;
+      --teal: #2dd4bf;
+      --red: #ef6d6d;
+      --text: #f0e7dc;
+      --muted: #8c95aa;
+      --muted2: #667086;
+      --shadow: 0 16px 44px rgba(0, 0, 0, 0.44);
+      --ui-font: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      --display-font: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 5%, rgba(247, 200, 69, 0.07), transparent 22%),
+        radial-gradient(circle at 85% 0%, rgba(61, 142, 255, 0.05), transparent 18%),
+        linear-gradient(180deg, #111111 0%, #0a0d16 100%);
+      color: var(--text);
+      font-family: var(--ui-font);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 85%);
+    }
+
+    .shell {
+      width: min(1260px, calc(100vw - 18px));
+      margin: 0 auto;
+      background: rgba(6, 10, 18, 0.9);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+
+    .top-title {
+      padding: 12px 20px 6px;
+      color: rgba(238, 239, 244, 0.58);
+      font-size: 13px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 18px;
+      height: 44px;
+      background: linear-gradient(180deg, rgba(15, 22, 41, 0.98), rgba(12, 18, 34, 0.98));
+      border-top: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255, 203, 71, 0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff0b1;
+      font-weight: 800;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .brand-badge {
+      padding: 2px 5px;
+      border-radius: 2px;
+      background: var(--gold);
+      color: #201504;
+      font-size: 8px;
+      letter-spacing: 0.8px;
+    }
+
+    .nav {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .nav a {
+      color: rgba(233, 239, 250, 0.72);
+      text-decoration: none;
+      font-size: 10.5px;
+      padding: 5px 7px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      color: #fff;
+      background: rgba(247, 200, 69, 0.10);
+    }
+
+    .nav a.active {
+      border-bottom: 2px solid var(--gold);
+      border-radius: 0;
+      padding-bottom: 3px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-pill {
+      font-size: 9px;
+      color: #d9deea;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      padding: 3px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .icon-btn,
+    .avatar {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: #eef2fb;
+      border-radius: 50%;
+      font-size: 10px;
+    }
+
+    .avatar {
+      background: linear-gradient(180deg, #f4da8b, #c98f2a);
+      color: #201504;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 14px 16px 12px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 0 10px;
+      margin-bottom: 16px;
+    }
+
+    .tabs a {
+      color: #c3cada;
+      text-decoration: none;
+      font-size: 10px;
+      padding-bottom: 8px;
+      white-space: nowrap;
+    }
+
+    .tabs a.active {
+      color: #fff1bf;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: var(--display-font);
+      font-size: 23px;
+      letter-spacing: -0.3px;
+      color: #fff;
+    }
+
+    .hero p {
+      margin: 6px 0 0;
+      font-size: 10px;
+      color: #8b95ab;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .btn,
+    .btn-gold,
+    .btn-outline {
+      height: 22px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #eef2fb;
+      font-size: 9.5px;
+      padding: 0 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-gold {
+      background: linear-gradient(180deg, #f5cf70, #d9ab42);
+      color: #241708;
+      border-color: rgba(255, 227, 155, 0.86);
+      font-weight: 800;
+    }
+
+    .btn-outline:hover,
+    .btn:hover {
+      border-color: rgba(247, 200, 69, 0.3);
+      background: rgba(247, 200, 69, 0.06);
+    }
+
+    .btn-gold:hover {
+      filter: brightness(1.04);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) 320px;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .main-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .metric-card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(10, 15, 25, 0.98));
+      padding: 12px 12px 11px;
+      min-height: 76px;
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .metric-card.active {
+      position: relative;
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(12, 17, 29, 0.98));
+      border-color: rgba(247, 200, 69, 0.48);
+      box-shadow: inset 0 0 0 1px rgba(247, 200, 69, 0.08);
+    }
+
+    .metric-head {
+      font-size: 9px;
+      color: #96a0b3;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .metric-value {
+      display: flex;
+      align-items: end;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .metric-value .num {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1;
+      color: #f5d164;
+      letter-spacing: -1px;
+    }
+
+    .metric-value .tag {
+      font-size: 9px;
+      color: #59e3a2;
+      border: 1px solid rgba(89, 227, 162, 0.35);
+      background: rgba(89, 227, 162, 0.08);
+      padding: 2px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    .metric-value .tag.red {
+      color: #f58e8e;
+      border-color: rgba(245, 142, 142, 0.35);
+      background: rgba(245, 142, 142, 0.08);
+    }
+
+    .metric-value .tag.gold {
+      color: #ffdd8c;
+      border-color: rgba(247, 200, 69, 0.35);
+      background: rgba(247, 200, 69, 0.08);
+    }
+
+    .metric-sub {
+      font-size: 9px;
+      color: #98a2b6;
+      margin-top: -2px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(10, 15, 25, 0.98));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+      padding: 12px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 12px;
+      color: #f4f6fb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title .icon {
+      width: 12px;
+      height: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #ccd2e0;
+    }
+
+    .card-sub {
+      color: #8c95aa;
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 212px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 10px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .funnel {
+      display: grid;
+      gap: 12px;
+      padding-top: 8px;
+    }
+
+    .funnel-step {
+      position: relative;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 10px;
+      color: #dbe1ef;
+      overflow: hidden;
+    }
+
+    .funnel-step::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: var(--width);
+      background: linear-gradient(90deg, rgba(74, 120, 206, 0.2), rgba(74, 120, 206, 0.08));
+      pointer-events: none;
+    }
+
+    .funnel-step.gold::before {
+      background: linear-gradient(90deg, rgba(247, 200, 69, 0.2), rgba(247, 200, 69, 0.08));
+    }
+
+    .funnel-step.green::before {
+      background: linear-gradient(90deg, rgba(45, 212, 191, 0.2), rgba(45, 212, 191, 0.08));
+    }
+
+    .funnel-step .label,
+    .funnel-step .value {
+      position: relative;
+      z-index: 1;
+    }
+
+    .funnel-step .value {
+      font-weight: 700;
+      color: #f2f5ff;
+    }
+
+    .table-card {
+      padding: 12px;
+    }
+
+    .table-card .table-head {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 10px;
+      font-size: 9px;
+      color: #93a0b6;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      padding: 0 0 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 8px;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 10px;
+      align-items: center;
+      font-size: 10px;
+      color: #dfe4f1;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .table-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .context-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #f1f4fb;
+      font-weight: 700;
+    }
+
+    .context-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-size: 9px;
+      background: rgba(255,255,255,0.06);
+      color: #dbe2ef;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .num-green { color: #55f0b0; font-weight: 700; }
+    .num-red { color: #f07d7d; font-weight: 700; }
+    .num-gold { color: #ffce52; font-weight: 700; }
+
+    .side-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .side-card {
+      padding: 12px;
+    }
+
+    .side-card .title {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: #f4f6fb;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .side-card .title .icon {
+      width: 12px;
+      height: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #ccd2e0;
+    }
+
+    .right-metrics {
+      display: grid;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .right-metric {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .right-metric:last-child { border-bottom: 0; padding-bottom: 0; }
+
+    .right-metric .label {
+      color: #a3adc0;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 4px;
+    }
+
+    .right-metric .name {
+      font-size: 10px;
+      color: #dfe3ef;
+    }
+
+    .right-metric .value {
+      font-size: 16px;
+      font-weight: 800;
+      color: #54e0a1;
+      white-space: nowrap;
+    }
+
+    .right-metric .value.gold { color: #ffce52; }
+    .right-metric .value.gray { color: #ecf0f7; }
+
+    .ai-box {
+      border: 1px solid var(--border-strong);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(10, 15, 25, 0.98));
+    }
+
+    .ai-card {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid var(--border-strong);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(10, 15, 25, 0.98));
+    }
+
+    .ai-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .ai-head h3 {
+      margin: 0;
+      font-size: 12px;
+      color: #fff1bf;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 9px;
+      color: #ffcf58;
+      background: rgba(247, 200, 69, 0.08);
+      border: 1px solid rgba(247, 200, 69, 0.3);
+      padding: 2px 6px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .ai-copy {
+      color: #d5dce9;
+      font-size: 10px;
+      line-height: 1.45;
+      margin: 0 0 10px;
+    }
+
+    .progress {
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      border-radius: 999px;
+      margin: 10px 0 8px;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 94%;
+      background: linear-gradient(90deg, #49e0a4, #2ad39b);
+      border-radius: 999px;
+    }
+
+    .cta {
+      width: 100%;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #eef2fb;
+      font-size: 10px;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .alert-card {
+      padding: 12px;
+      border-left: 2px solid #f3b21b;
+    }
+
+    .alert-card h3 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      color: #fff1bf;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .alert-card p {
+      margin: 0;
+      color: #d5dce9;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .footerbar {
+      margin-top: 12px;
+      height: 38px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #95a0b6;
+      font-size: 9px;
+      padding: 0 6px;
+    }
+
+    .footer-left,
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3edc92;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100vw - 8px, 100%);
+      }
+
+      .topbar {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 8px 10px;
+      }
+
+      .nav {
+        order: 3;
+        flex-basis: 100%;
+        overflow-x: auto;
+      }
+
+      .content {
+        padding: 10px;
+      }
+
+      .hero,
+      .footerbar {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+      }
+
+      .metrics-row {
+        grid-template-columns: 1fr;
+      }
+
+      .table-card .table-head,
+      .table-row {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      }
+
+      .table-card .table-head > :nth-child(n+5),
+      .table-row > :nth-child(n+5) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top-title">VentureOS | Ad Performance Dashboard</div>
+
+    <header class="topbar">
+      <div class="brand">Venture<span style="letter-spacing:0.2px;">a</span> S <span class="brand-badge">BETA</span></div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#">Dashboard</a>
+        <a href="#">Products</a>
+        <a href="#">Market</a>
+        <a href="#">Blueprint</a>
+        <a href="#">Shipping</a>
+        <a href="#" class="active">Tracking</a>
+        <a href="#">SEO</a>
+        <a href="#">Settings</a>
+      </nav>
+      <div class="top-actions">
+        <div class="mode-pill">Mode A</div>
+        <div class="mode-pill">Reseller</div>
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <div class="avatar">⟡</div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="tabs" aria-label="Tracking sections">
+        <a href="#">Business Overview</a>
+        <a href="#">Revenue Tracker</a>
+        <a href="#">Expense Manager</a>
+        <a href="#">Inventory Tracker</a>
+        <a href="#" class="active">Ad Performance</a>
+        <a href="#">Best Seller Rankings</a>
+        <a href="#">New Product Launch Radar</a>
+      </div>
+
+      <div class="hero">
+        <div>
+          <h1>Ad Performance Dashboard</h1>
+          <p>Track multi-channel conversion marketing, monitor live ROAS thresholds, and optimize digital ad accounts against real product margins.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn-outline">☰ Meta Ads: VentureOS _ees</button>
+          <button class="btn-gold">⚙ Optimize Budget</button>
+          <button class="btn">✦ Scale Campaigns</button>
+        </div>
+      </div>
+
+      <section class="layout">
+        <div class="main-grid">
+          <div class="metrics-row">
+            <div class="metric-card">
+              <div class="metric-head">Total Marketing Spend</div>
+              <div class="metric-value">
+                <div class="num">৳ 1,42,500</div>
+              </div>
+              <div class="metric-sub">This month across all channels</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-head">Blended Purchase ROAS</div>
+              <div class="metric-value">
+                <div class="num" style="font-size:21px;color:#4ce0a0;">4.2x</div>
+                <div class="tag">ROAS</div>
+              </div>
+              <div class="metric-sub">Healthy acquisition efficiency</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-head">Avg Cost Per Purchase</div>
+              <div class="metric-value">
+                <div class="num" style="font-size:23px;color:#f1e8d3;">185.20</div>
+              </div>
+              <div class="metric-sub">Blended across channels</div>
+            </div>
+
+            <div class="metric-card active">
+              <div class="metric-head">Cast FE Message</div>
+              <div class="metric-value">
+                <div class="num" style="color:#ffcb4a;">12.40</div>
+                <div class="tag gold">FE-CONT</div>
+              </div>
+              <div class="metric-sub">Message pressure rising</div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <section class="card">
+              <div class="card-header">
+                <h2 class="card-title"><span class="icon">▣</span>Attributed Revenue vs Ad Spend</h2>
+                <div class="card-sub">Spend → revenue</div>
+              </div>
+              <div class="chart-wrap">
+                <canvas id="trendChart" width="780" height="360"></canvas>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-header">
+                <h2 class="card-title"><span class="icon">▣</span>E-Commerce Conversion Funnel</h2>
+                <div class="card-sub">Last 7 days</div>
+              </div>
+              <div class="funnel">
+                <div class="funnel-step" style="--width: 92%;"><span class="label">Ad Impressions</span><span class="value">120.0k</span></div>
+                <div class="funnel-step" style="--width: 64%;"><span class="label">Link Clicks / Chat Initiated</span><span class="value">14.2k</span></div>
+                <div class="funnel-step gold" style="--width: 44%;"><span class="label">Confirmed</span><span class="value">1.8k</span></div>
+                <div class="funnel-step green" style="--width: 28%;"><span class="label">Paid Orders</span><span class="value">410</span></div>
+              </div>
+            </section>
+          </div>
+
+          <section class="card table-card">
+            <div class="card-header">
+              <h2 class="card-title"><span class="icon">▣</span>Granular Campaign Tracking Architecture</h2>
+              <div class="card-sub">⋯</div>
+            </div>
+            <div class="table-head">
+              <div>Context</div>
+              <div>Objective</div>
+              <div>Daily Budget</div>
+              <div>ROAS</div>
+              <div>Purchase CPA</div>
+              <div>Ops</div>
+            </div>
+            <div class="table-row">
+              <div class="context-title">Wireless Audio Pro — Scaling</div>
+              <div><span class="context-chip">Messaging</span></div>
+              <div>৳ 4,500/day</div>
+              <div class="num-green">4.8x</div>
+              <div>৳ 142.00</div>
+              <div><span class="context-chip" style="color:#f3cf70;">Scale</span></div>
+            </div>
+            <div class="table-row">
+              <div class="context-title">Watch Active v2</div>
+              <div><span class="context-chip">Website Purchases</span></div>
+              <div>৳ 2,500/day</div>
+              <div class="num-green">3.4x</div>
+              <div>৳ 210.00</div>
+              <div><span class="context-chip">Monitor</span></div>
+            </div>
+            <div class="table-row">
+              <div class="context-title">Home Gadgets Retargeting</div>
+              <div><span class="context-chip">Catalog Conversions</span></div>
+              <div>৳ 1,500/day</div>
+              <div class="num-red">1.9x</div>
+              <div class="num-red">৳ 380.00</div>
+              <div><span class="context-chip" style="color:#f38d8d;">Pause</span></div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="side-stack">
+          <section class="side-card">
+            <h3 class="title"><span class="icon">▣</span>Digital Ad Account Infrastructure</h3>
+            <div class="right-metrics">
+              <div class="right-metric">
+                <div>
+                  <div class="label">Primary Ad Wallet</div>
+                  <div class="name">USD Available</div>
+                </div>
+                <div class="value">$420.50</div>
+              </div>
+              <div class="right-metric">
+                <div>
+                  <div class="label">Ad Bank Dual Currency</div>
+                  <div class="name">Passport Ceiling</div>
+                </div>
+                <div class="value gold">85,000</div>
+              </div>
+              <div class="right-metric">
+                <div>
+                  <div class="label">Daily Ad Burn</div>
+                  <div class="name">Current Velocity</div>
+                </div>
+                <div class="value gray">8,500/day</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="side-card ai-box">
+            <h3 class="title"><span class="icon">◎</span>AI Demographics &amp; Affinity</h3>
+            <div class="right-metrics">
+              <div class="right-metric">
+                <div>
+                  <div class="label">Geolocation Winner</div>
+                  <div class="name">Dhaka Division</div>
+                  <div class="name" style="color:#9aa3b6;">Dhanmondi, Uttara, &amp; Agan</div>
+                </div>
+              </div>
+              <div class="right-metric">
+                <div>
+                  <div class="label">Core Demographics</div>
+                  <div class="name">Female &nbsp;|&nbsp; Age 18-26</div>
+                </div>
+              </div>
+              <div>
+                <div class="label">Pixel Data Confidence</div>
+                <div class="progress"><span></span></div>
+                <div style="display:flex;justify-content:flex-end;color:#55f0b0;font-size:9px;font-weight:700;">94%</div>
+              </div>
+            </div>
+            <button class="cta">Export Audience Targets to Ads Manager →</button>
+          </section>
+
+          <section class="alert-card side-card">
+            <h3><span style="color:#ffbf2d;">⚠</span>AI Ad Copy &amp; Fatigue Alert</h3>
+            <p>High ad fatigue detected for [CAMP-04] in the Dhaka cluster. Cost per conversion has increased by <b style="color:#ffdf85;">+18%</b> in 48hrs. Recommend refreshing creative.</p>
+          </section>
+        </aside>
+      </section>
+
+      <div class="footerbar">
+        <div class="footer-left">
+          <div class="footer-item"><span class="status-dot"></span>API Status: Connected (Meta Graph v18.0)</div>
+          <div class="footer-item"><span class="status-dot"></span>Conversion Pixel: Active (24ms latency)</div>
+        </div>
+        <div class="footer-right">
+          <div class="footer-item">Dual-Currency Index: <b style="color:#f2d164;">USD/BDT 118.40</b></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('trendChart');
+    const ctx = canvas.getContext('2d');
+
+    const labels = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6'];
+    const spend = [28, 35, 31, 44, 39, 52];
+    const revenue = [22, 29, 33, 41, 47, 58];
+
+    function resizeCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.max(1, Math.round(rect.width * ratio));
+      canvas.height = Math.max(1, Math.round(rect.height * ratio));
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      drawChart();
+    }
+
+    function pointsFor(data, w, h, pad, maxVal) {
+      const chartW = w - pad.left - pad.right;
+      const chartH = h - pad.top - pad.bottom;
+      return data.map((value, index) => ({
+        x: pad.left + (index / (data.length - 1)) * chartW,
+        y: pad.top + (1 - value / maxVal) * chartH,
+        value,
+      }));
+    }
+
+    function smoothPath(points) {
+      if (points.length < 2) return '';
+      let d = `M ${points[0].x} ${points[0].y}`;
+      for (let i = 0; i < points.length - 1; i++) {
+        const p0 = points[i - 1] || points[i];
+        const p1 = points[i];
+        const p2 = points[i + 1];
+        const p3 = points[i + 2] || p2;
+        const cp1x = p1.x + (p2.x - p0.x) / 6;
+        const cp1y = p1.y + (p2.y - p0.y) / 6;
+        const cp2x = p2.x - (p3.x - p1.x) / 6;
+        const cp2y = p2.y - (p3.y - p1.y) / 6;
+        d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+      }
+      return d;
+    }
+
+    function drawGrid(w, h, pad) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 5]);
+      for (let i = 0; i < 4; i++) {
+        const y = pad.top + (i / 3) * (h - pad.top - pad.bottom);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(w - pad.right, y);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+
+    function drawBars(points, color) {
+      const barWidth = 22;
+      points.forEach((point, index) => {
+        const baseY = canvas.getBoundingClientRect().height - 30;
+        const barHeight = baseY - point.y;
+        ctx.fillStyle = color;
+        ctx.strokeStyle = 'rgba(255,255,255,0.38)';
+        ctx.lineWidth = 1;
+        ctx.fillRect(point.x - barWidth / 2, point.y, barWidth, barHeight);
+        ctx.strokeRect(point.x - barWidth / 2, point.y, barWidth, barHeight);
+      });
+    }
+
+    function drawLine(points, stroke, fill, width = 2) {
+      const linePath = smoothPath(points);
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+      const pad = { left: 20, right: 20, top: 18, bottom: 32 };
+      const fillPath = `${linePath} L ${points[points.length - 1].x} ${h - pad.bottom} L ${points[0].x} ${h - pad.bottom} Z`;
+      const gradient = ctx.createLinearGradient(0, pad.top, 0, h - pad.bottom);
+      gradient.addColorStop(0, fill);
+      gradient.addColorStop(1, 'rgba(247, 200, 69, 0.00)');
+      const fillShape = new Path2D(fillPath);
+      ctx.fillStyle = gradient;
+      ctx.fill(fillShape);
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = width;
+      const lineShape = new Path2D(linePath);
+      ctx.stroke(lineShape);
+      points.forEach((point, index) => {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, index === points.length - 2 ? 3 : 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = '#f7c845';
+        ctx.fill();
+      });
+    }
+
+    function drawChart() {
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+      ctx.clearRect(0, 0, w, h);
+      const pad = { left: 20, right: 18, top: 18, bottom: 28 };
+      const maxVal = 65;
+      drawGrid(w, h, pad);
+      const spendPoints = pointsFor(spend, w, h, pad, maxVal);
+      const revenuePoints = pointsFor(revenue, w, h, pad, maxVal);
+      drawBars(spendPoints, 'rgba(255,255,255,0.02)');
+      drawLine(spendPoints, 'rgba(241, 232, 211, 0.8)', 'rgba(241, 232, 211, 0.05)', 1.8);
+      drawLine(revenuePoints, 'rgba(247, 200, 69, 0.98)', 'rgba(247, 200, 69, 0.12)', 2.2);
+
+      ctx.fillStyle = '#8e97aa';
+      ctx.font = '9px Segoe UI, Arial, sans-serif';
+      labels.forEach((label, index) => {
+        const x = pad.left + (index / (labels.length - 1)) * (w - pad.left - pad.right) - 8;
+        ctx.fillText(label, x, h - 8);
+      });
+    }
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
+  </script>
+</body>
+</html>

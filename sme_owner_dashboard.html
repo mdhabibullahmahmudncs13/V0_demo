@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VentureOS | SME Owner Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d10;
+            --surface: #14141a;
+            --surface2: #1a1a24;
+            --border: #2a2a38;
+            --accent: #c8f135;
+            --accent2: #f1c035;
+            --danger: #f14040;
+            --info: #35c8f1;
+            --muted: #5a5a78;
+            --text: #e8e8f0;
+            --text2: #9090a8;
+            --font-mono: 'Space Mono', monospace;
+            --font-sans: 'DM Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: #0a0a0f;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            height: 52px;
+            gap: 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            background: var(--accent);
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .nav a {
+            color: var(--text2);
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+        }
+
+        .nav a.active {
+            color: var(--accent);
+            background: var(--surface2);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+        }
+
+        .mode-badge {
+            font-size: 11px;
+            color: var(--text2);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text2);
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .notif-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+        }
+
+        /* MAIN */
+        .main {
+            padding: 28px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            color: var(--text2);
+            font-size: 13px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text2);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--text2);
+            color: var(--text);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .btn-accent:hover {
+            background: #d4fc42;
+        }
+
+        /* STATS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent);
+            background: var(--surface2);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-value {
+            font-family: var(--font-mono);
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .green {
+            color: var(--accent);
+        }
+
+        .yellow {
+            color: var(--accent2);
+        }
+
+        .red {
+            color: var(--danger);
+        }
+
+        .blue {
+            color: var(--info);
+        }
+
+        /* CONTENT GRID */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .card-subtitle {
+            font-size: 11px;
+            color: var(--text2);
+        }
+
+        /* CHART */
+        .chart-container {
+            position: relative;
+            height: 220px;
+            margin-top: 12px;
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            padding: 0 4px;
+        }
+
+        .chart-labels span {
+            font-size: 10px;
+            color: var(--muted);
+            font-family: var(--font-mono);
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* COMPETITOR RADAR */
+        .radar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--surface2);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radar-item:hover {
+            border-color: var(--accent);
+            background: #1e1e2a;
+        }
+
+        .radar-item-info {
+            flex: 1;
+        }
+
+        .radar-item-name {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .radar-item-detail {
+            font-size: 11px;
+            color: var(--text2);
+        }
+
+        .radar-item-icon {
+            font-size: 16px;
+            margin-left: 8px;
+        }
+
+        /* ACTION BUTTONS */
+        .actions-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .action-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text2);
+        }
+
+        .action-btn:hover {
+            background: var(--surface2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .action-icon {
+            font-size: 20px;
+        }
+
+        /* ALERT SECTION */
+        .alert-box {
+            background: linear-gradient(135deg, rgba(241, 64, 64, 0.1), rgba(241, 64, 64, 0.05));
+            border: 1px solid rgba(241, 64, 64, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .alert-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: 4px;
+        }
+
+        .alert-text {
+            font-size: 11px;
+            color: var(--text2);
+            line-height: 1.5;
+        }
+
+        .alert-close {
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text2);
+            transition: color 0.2s;
+        }
+
+        .alert-close:hover {
+            color: var(--danger);
+        }
+
+        /* TAB GROUP */
+        .tab-group {
+            display: flex;
+            gap: 2px;
+            background: var(--surface2);
+            padding: 2px;
+            border-radius: 4px;
+        }
+
+        .tab {
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            color: var(--text2);
+            white-space: nowrap;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-container {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 0 16px;
+                height: 48px;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="logo">VentureOS <span>MODE B - SME OWNER</span></div>
+        <nav class="nav">
+            <a class="active">Dashboard</a>
+            <a>Portfolio</a>
+            <a>Strategy</a>
+            <a>Reports</a>
+        </nav>
+        <div class="topbar-right">
+            <div class="icon-btn" style="position: relative;">
+                🔔
+                <div class="notif-dot"></div>
+            </div>
+            <div class="icon-btn">⚙️</div>
+            <div class="icon-btn">☰</div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+                <p>Good morning, Priya. Here's a summary of your business performance today.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost">📊 View Full Report</button>
+                <button class="btn btn-accent">+ Add Transaction</button>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label">Monthly Revenue <span>📊</span></div>
+                <div class="stat-value">₹2,14,500</div>
+                <div class="stat-sub green">▲ +110.5% vs last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Net Profit <span>💰</span></div>
+                <div class="stat-value">₹88,200</div>
+                <div class="stat-sub green">▲ +8.2% vs last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Unsold Stock Items <span>📦</span></div>
+                <div class="stat-value">11</div>
+                <div class="stat-sub red">⚠️ Action required</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Team Active Today <span>👥</span></div>
+                <div class="stat-value">3/9</div>
+                <div class="stat-sub blue">All staff present</div>
+            </div>
+        </div>
+
+        <!-- CONTENT GRID -->
+        <div class="content-grid">
+            <!-- CHART -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Revenue & Expense Overview</div>
+                        <div class="card-subtitle">Last 6 months</div>
+                    </div>
+                    <div class="tab-group">
+                        <button class="tab active">30D</button>
+                        <button class="tab">90D</button>
+                        <button class="tab">YTD</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart" width="400" height="200"></canvas>
+                    <div class="chart-labels">
+                        <span>Jan</span>
+                        <span>Feb</span>
+                        <span>Mar</span>
+                        <span>Apr</span>
+                    </div>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #c8f135;"></div>
+                        <span>TOTAL REVENUE</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #35c8f1;"></div>
+                        <span>TOTAL EXPENSES</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #f1c035;"></div>
+                        <span>NET PROFIT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPETITOR RADAR -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Competitor Radar</div>
+                        <div class="card-subtitle">Competing</div>
+                    </div>
+                </div>
+                <div class="radar-list">
+                    <div class="radar-item">
+                        <div class="radar-item-info">
+                            <div class="radar-item-name">Aroma Cosmetics</div>
+                            <div class="radar-item-detail">High promotional activity</div>
+                        </div>
+                        <div class="radar-item-icon">🔴</div>
+                    </div>
+                    <div class="radar-item">
+                        <div class="radar-item-info">
+                            <div class="radar-item-name">Beauty Bliss BD</div>
+                            <div class="radar-item-detail">Increased tax rosters</div>
+                        </div>
+                        <div class="radar-item-icon">🟡</div>
+                    </div>
+                    <div class="radar-item">
+                        <div class="radar-item-info">
+                            <div class="radar-item-name">Glamour Hub</div>
+                            <div class="radar-item-detail">Stable pricing</div>
+                        </div>
+                        <div class="radar-item-icon">🟢</div>
+                    </div>
+                    <div class="radar-item">
+                        <div class="radar-item-info">
+                            <div class="radar-item-name">Elite Care Pharm</div>
+                            <div class="radar-item-detail">No recent updates</div>
+                        </div>
+                        <div class="radar-item-icon">⚫</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="actions-container">
+            <button class="action-btn">
+                <div class="action-icon">📦</div>
+                <span>Add Sale</span>
+            </button>
+            <button class="action-btn">
+                <div class="action-icon">📝</div>
+                <span>Update Inventory</span>
+            </button>
+            <button class="action-btn">
+                <div class="action-icon">👤</div>
+                <span>Add Customer</span>
+            </button>
+            <button class="action-btn">
+                <div class="action-icon">⚡</div>
+                <span>Quick Action</span>
+            </button>
+        </div>
+
+        <!-- ALERT -->
+        <div class="alert-box">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+                <div class="alert-title">Competitor Alert</div>
+                <div class="alert-text">Aroma Cosmetics has dropped prices on your top 3 items by 15%</div>
+            </div>
+            <div class="alert-close" onclick="this.closest('.alert-box').style.display='none';">×</div>
+        </div>
+    </div>
+
+    <script>
+        // Draw Revenue Chart
+        const canvas = document.getElementById('revenueChart');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth - 12;
+            canvas.height = 200;
+            drawChart();
+        }
+
+        const months = ['Jan', 'Feb', 'Mar', 'Apr'];
+        const revenue = [1.0, 1.5, 1.3, 2.14];
+        const expenses = [0.4, 0.6, 0.5, 0.8];
+        const profit = [0.6, 0.9, 0.8, 1.34];
+
+        function drawChart() {
+            const W = canvas.width;
+            const H = canvas.height;
+            ctx.clearRect(0, 0, W, H);
+
+            const padding = { left: 0, right: 20, top: 20, bottom: 30 };
+            const chartW = W - padding.left - padding.right;
+            const chartH = H - padding.top - padding.bottom;
+            const maxValue = 2.5;
+
+            // Grid
+            ctx.strokeStyle = '#1e1e2a';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = padding.top + (chartH / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(W - padding.right, y);
+                ctx.stroke();
+            }
+
+            // Helper functions
+            function getX(i) {
+                return padding.left + (W - padding.left - padding.right) * (i / (months.length - 1));
+            }
+
+            function getY(value) {
+                return padding.top + chartH - (chartH * (value / maxValue));
+            }
+
+            // Draw lines with gradients
+            function drawLine(data, color, fillColor) {
+                // Fill
+                const grad = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartH);
+                grad.addColorStop(0, fillColor);
+                grad.addColorStop(1, 'transparent');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                data.forEach((v, i) => {
+                    const x = getX(i);
+                    const y = getY(v);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.lineTo(getX(data.length - 1), padding.top + chartH);
+                ctx.lineTo(getX(0), padding.top + chartH);
+                ctx.closePath();
+                ctx.fill();
+
+                // Line
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                data.forEach((v, i) => {
+                    const x = getX(i);
+                    const y = getY(v);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+
+                // Dots on last point
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(getX(data.length - 1), getY(data[data.length - 1]), 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            drawLine(expenses, '#35c8f1', 'rgba(53, 200, 241, 0.1)');
+            drawLine(revenue, '#c8f135', 'rgba(200, 241, 53, 0.1)');
+            drawLine(profit, '#f1c035', 'rgba(241, 192, 53, 0.1)');
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        setTimeout(resizeCanvas, 100);
+
+        // Tab switching
+        document.querySelectorAll('.tab-group').forEach(group => {
+            group.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    group.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+        });
+
+        // Nav switching
+        document.querySelectorAll('.nav a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.querySelectorAll('.nav a').forEach(n => n.classList.remove('active'));
+                a.classList.add('active');
+            });
+        });
+
+        // Action buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Action: ' + btn.textContent.trim());
+            });
+        });
+    </script>
+</body>
+</html>

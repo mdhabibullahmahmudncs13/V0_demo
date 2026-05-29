@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VentureOS | SEO Strategy Overview</title>
+  <style>
+    :root {
+      --bg: #0a0f1b;
+      --bg2: #0d1322;
+      --panel: #11192c;
+      --panel2: #141d34;
+      --panel3: #0c1323;
+      --line: rgba(124, 140, 176, 0.18);
+      --line-strong: rgba(247, 200, 69, 0.32);
+      --gold: #f2c84b;
+      --gold-strong: #ffd966;
+      --green: #48df9b;
+      --blue: #7ea4ff;
+      --red: #ff7f7f;
+      --text: #eef2fb;
+      --muted: #93a0b7;
+      --muted2: #6c778f;
+      --shadow: 0 20px 52px rgba(0, 0, 0, 0.45);
+      --ui-font: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      --display-font: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(247, 200, 69, 0.08), transparent 20%),
+        radial-gradient(circle at 85% 0%, rgba(126, 164, 255, 0.07), transparent 18%),
+        linear-gradient(180deg, #111522 0%, #090d16 100%);
+      color: var(--text);
+      font-family: var(--ui-font);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.72), transparent 86%);
+    }
+
+    .shell {
+      width: min(1400px, calc(100vw - 18px));
+      margin: 0 auto;
+      background: rgba(7, 10, 19, 0.92);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.04);
+      overflow: hidden;
+      animation: rise 540ms ease-out both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 18px;
+      min-height: 44px;
+      background: linear-gradient(180deg, rgba(20, 16, 11, 0.98), rgba(14, 14, 15, 0.98));
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffe89b;
+      font-weight: 800;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 18px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, #f6cf6a, #d7a73b);
+      color: #231707;
+      font-size: 9px;
+      letter-spacing: 0.8px;
+      font-weight: 900;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: rgba(232, 238, 249, 0.76);
+      font-size: 10px;
+      padding: 5px 8px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      color: #fff;
+      background: rgba(247, 200, 69, 0.08);
+    }
+
+    .nav a.active {
+      border-bottom: 2px solid var(--gold);
+      border-radius: 0;
+      padding-bottom: 3px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill,
+    .icon-btn {
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #edf1f9;
+      font-size: 9px;
+      white-space: nowrap;
+      padding: 0 10px;
+    }
+
+    .icon-btn {
+      width: 22px;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #f6cf6a, #c98f2a);
+      color: #231707;
+      font-weight: 800;
+      font-size: 10px;
+    }
+
+    .content {
+      padding: 14px 16px 12px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tabs a {
+      color: #c5ccda;
+      text-decoration: none;
+      font-size: 10px;
+      padding-bottom: 8px;
+    }
+
+    .tabs a.active {
+      color: #fff1bf;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: var(--display-font);
+      font-size: 24px;
+      line-height: 1.08;
+      letter-spacing: -0.4px;
+      color: #fff;
+    }
+
+    .hero p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+      max-width: 560px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .btn,
+    .btn-outline,
+    .btn-gold {
+      height: 28px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #eef2fb;
+      font-size: 9.5px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-gold {
+      background: linear-gradient(180deg, #f6cf6a, #d9ab42);
+      color: #241708;
+      border-color: rgba(255, 227, 155, 0.86);
+      font-weight: 800;
+    }
+
+    .btn-outline:hover,
+    .btn:hover {
+      background: rgba(247, 200, 69, 0.06);
+      border-color: rgba(247, 200, 69, 0.28);
+    }
+
+    .btn-gold:hover { filter: brightness(1.04); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) 330px;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .main-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .metric-card,
+    .card,
+    .side-card,
+    .alert-card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(18, 25, 42, 0.98), rgba(10, 15, 25, 0.98));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .metric-card {
+      min-height: 76px;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      align-content: space-between;
+    }
+
+    .metric-card.active {
+      border-color: rgba(247, 200, 69, 0.5);
+      box-shadow: inset 0 0 0 1px rgba(247, 200, 69, 0.08);
+      background: linear-gradient(180deg, rgba(22, 29, 48, 0.98), rgba(12, 17, 29, 0.98));
+    }
+
+    .metric-head {
+      font-size: 9px;
+      color: #8f99ad;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .metric-value {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .metric-value .num {
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #f4d05e;
+    }
+
+    .metric-value .num.blue { color: #89a6ff; }
+    .metric-value .num.green { color: #49e0a1; }
+    .metric-value .num.white { color: #eef2fb; }
+
+    .tag {
+      font-size: 9px;
+      color: #49e0a1;
+      border: 1px solid rgba(73, 224, 161, 0.35);
+      background: rgba(73, 224, 161, 0.08);
+      padding: 2px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    .metric-sub {
+      font-size: 9px;
+      color: #96a0b3;
+      margin-top: -2px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.14fr 0.86fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .card,
+    .side-card,
+    .alert-card {
+      padding: 12px;
+    }
+
+    .card-header,
+    .side-head,
+    .ai-head,
+    .alert-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-title,
+    .side-title,
+    .alert-title {
+      margin: 0;
+      font-size: 12px;
+      color: #f5f7fb;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .title-icon {
+      width: 12px;
+      height: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #cdd4e3;
+      font-size: 8px;
+      flex: 0 0 auto;
+    }
+
+    .card-sub,
+    .side-sub {
+      color: #8d96ab;
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 190px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 12px;
+    }
+
+    .chart-legend {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      display: flex;
+      gap: 12px;
+      font-size: 9px;
+      color: #90a0be;
+      z-index: 1;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.gold { background: var(--gold); }
+    .dot.blue { background: #88a8ff; }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      color: #f5f7fb;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .distribution {
+      display: grid;
+      gap: 12px;
+      padding-top: 2px;
+    }
+
+    .dist-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .dist-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 10px;
+      color: #dce2ef;
+    }
+
+    .dist-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .dist-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, rgba(247, 200, 69, 0.92), rgba(247, 200, 69, 0.58));
+    }
+
+    .dist-fill.blue { background: linear-gradient(90deg, rgba(126, 164, 255, 0.92), rgba(126, 164, 255, 0.5)); }
+    .dist-fill.white { background: linear-gradient(90deg, rgba(234, 239, 248, 0.96), rgba(234, 239, 248, 0.72)); }
+
+    .distribution small {
+      color: #7c879d;
+      font-size: 9px;
+      line-height: 1.3;
+      display: block;
+      margin-top: -1px;
+    }
+
+    .stack-box {
+      display: grid;
+      gap: 12px;
+    }
+
+    .service-list {
+      display: grid;
+      gap: 10px;
+      padding-top: 4px;
+    }
+
+    .service-item {
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .service-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #cbd3e4;
+      font-size: 10px;
+    }
+
+    .service-name {
+      font-size: 10px;
+      color: #e6ebf6;
+      margin: 0 0 3px;
+    }
+
+    .service-sub {
+      font-size: 9px;
+      color: #8e98ad;
+    }
+
+    .status-pill {
+      font-size: 8px;
+      padding: 3px 6px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #eef2fb;
+      background: rgba(255,255,255,0.03);
+      white-space: nowrap;
+    }
+
+    .status-pill.green {
+      color: #47e0a0;
+      background: rgba(71, 224, 160, 0.08);
+      border-color: rgba(71, 224, 160, 0.28);
+    }
+
+    .status-pill.gold {
+      color: #ffdb73;
+      background: rgba(247, 200, 69, 0.08);
+      border-color: rgba(247, 200, 69, 0.3);
+    }
+
+    .status-pill.muted {
+      color: #cfd6e4;
+    }
+
+    .score-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      margin: 10px 0 6px;
+    }
+
+    .score-bar > span {
+      display: block;
+      width: 92%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #4fe0a3, #24c68d);
+    }
+
+    .keyword-card {
+      padding: 12px;
+    }
+
+    .table-head,
+    .table-row {
+      display: grid;
+      grid-template-columns: 2.1fr 0.7fr 0.55fr 0.45fr 0.45fr 0.55fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .table-head {
+      padding: 2px 0 8px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: #8f99ad;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .table-row {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 10px;
+      color: #dfe4f1;
+    }
+
+    .table-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .kw-main {
+      font-size: 11px;
+      color: #eef2fb;
+      margin-bottom: 2px;
+    }
+
+    .kw-sub {
+      font-size: 9px;
+      color: #7f89a0;
+    }
+
+    .trend-up { color: #49e0a1; font-weight: 700; }
+    .trend-down { color: #ff8e8e; font-weight: 700; }
+    .trend-flat { color: #8ea0c8; font-weight: 700; }
+    .rank-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 18px;
+      padding: 0 6px;
+      border-radius: 2px;
+      border: 1px solid rgba(247, 200, 69, 0.28);
+      color: #ffe08a;
+      background: rgba(247, 200, 69, 0.08);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .rank-pill.red {
+      color: #ffb4b4;
+      border-color: rgba(255, 127, 127, 0.28);
+      background: rgba(255, 127, 127, 0.08);
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .side-card .side-title {
+      color: #fff4c1;
+    }
+
+    .webhook-note {
+      font-size: 9px;
+      color: #7f8ba1;
+      margin-top: 4px;
+    }
+
+    .console-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .console-item {
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .console-item .meta {
+      font-size: 9px;
+      color: #8f99ad;
+      margin-top: 3px;
+    }
+
+    .console-item .name {
+      font-size: 10px;
+      color: #e7ebf6;
+      margin: 0;
+    }
+
+    .ai-card {
+      border: 1px solid var(--line-strong);
+      background: linear-gradient(180deg, rgba(19, 25, 41, 0.98), rgba(10, 15, 25, 0.98));
+    }
+
+    .ai-head h3,
+    .alert-head h3 {
+      margin: 0;
+      font-size: 12px;
+      color: #fff1bf;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 8px;
+      color: #f6cf6a;
+      background: rgba(247, 200, 69, 0.08);
+      border: 1px solid rgba(247, 200, 69, 0.28);
+      padding: 2px 6px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .ai-copy,
+    .alert-copy {
+      margin: 0;
+      font-size: 10px;
+      line-height: 1.45;
+      color: #d5dce9;
+    }
+
+    .snippet-box {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 10px;
+      color: #f1f5fb;
+      line-height: 1.35;
+    }
+
+    .snippet-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 9px;
+      color: #8a94a8;
+      margin-top: 5px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      font-size: 8px;
+      padding: 3px 6px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: #dbe2ef;
+    }
+
+    .progress-block {
+      margin-top: 10px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 9px;
+      color: #8f99ad;
+      margin-bottom: 5px;
+    }
+
+    .progress {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 92%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #4fe0a3, #24c68d);
+    }
+
+    .alert-card {
+      border-color: rgba(255, 92, 92, 0.28);
+      background: linear-gradient(180deg, rgba(30, 18, 24, 0.98), rgba(10, 15, 25, 0.98));
+    }
+
+    .alert-card .alert-title {
+      color: #ffb3b3;
+    }
+
+    .alert-button {
+      margin-top: 10px;
+      height: 30px;
+      width: 100%;
+      border: 1px solid rgba(255, 177, 177, 0.42);
+      background: rgba(255, 127, 127, 0.06);
+      color: #ffc6c6;
+      border-radius: 2px;
+      font-size: 9px;
+      cursor: pointer;
+    }
+
+    .footerbar {
+      margin-top: 12px;
+      height: 34px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #91a0b7;
+      font-size: 9px;
+      padding: 0 6px;
+    }
+
+    .footer-left,
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+    }
+
+    .mini-progress {
+      margin-top: 7px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .mini-progress > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #4fe0a3, #24c68d);
+    }
+
+    .muted-kicker {
+      text-transform: uppercase;
+      font-size: 8px;
+      letter-spacing: 0.75px;
+      color: #8d97ab;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .shell { width: min(100vw - 8px, 100%); }
+      .topbar { flex-wrap: wrap; padding: 8px 10px; }
+      .nav { order: 3; flex-basis: 100%; overflow-x: auto; }
+      .content { padding: 10px; }
+      .hero,
+      .footerbar { flex-direction: column; align-items: flex-start; height: auto; }
+      .metrics-row { grid-template-columns: 1fr; }
+      .table-head,
+      .table-row { grid-template-columns: 1.8fr 0.7fr 0.7fr 0.55fr; }
+      .table-head > :nth-child(n+5),
+      .table-row > :nth-child(n+5) { display: none; }
+      .chart-wrap { height: 200px; }
+      .service-item,
+      .console-item { grid-template-columns: 22px 1fr; }
+      .service-item > :last-child,
+      .console-item > :last-child { grid-column: 1 / -1; justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">OS</span>
+        VentureOS
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#">Dashboard</a>
+        <a href="#">Products</a>
+        <a href="#">Market</a>
+        <a href="#">Blueprint</a>
+        <a href="#">Shipping</a>
+        <a href="#">Tracking</a>
+        <a href="#" class="active">SEO</a>
+        <a href="#">Settings</a>
+      </nav>
+      <div class="top-actions">
+        <div class="pill">Reseller Mode A</div>
+        <button class="icon-btn" aria-label="Notifications">!</button>
+        <button class="icon-btn" aria-label="Settings">*</button>
+        <div class="avatar">O</div>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="tabs" aria-label="SEO sections">
+        <a href="#" class="active">SEO Strategy Overview</a>
+        <a href="#">Keyword Researcher</a>
+        <a href="#">On-Page Auditor</a>
+        <a href="#">Backlink Tracker</a>
+        <a href="#">Marketplace Algorithm Optimizer</a>
+        <a href="#">Competitor SERP Map</a>
+      </div>
+
+      <div class="hero">
+        <div>
+          <h1>SEO Strategy Overview</h1>
+          <p>Command center for organic search performance and strategic positioning.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn-outline">Google Search (BD Cluster)</button>
+          <button class="btn-outline">Audit Site Maps</button>
+          <button class="btn-gold">Sync Search Console</button>
+        </div>
+      </div>
+
+      <section class="layout">
+        <div class="main-grid">
+          <div class="metrics-row">
+            <article class="metric-card">
+              <div class="metric-head">Impressions</div>
+              <div class="metric-value">
+                <div class="num white">2,40,500</div>
+              </div>
+              <div class="metric-sub"><span class="trend-up">+12.4%</span> MoM</div>
+            </article>
+
+            <article class="metric-card">
+              <div class="metric-head">Clicks</div>
+              <div class="metric-value">
+                <div class="num white">18,420</div>
+              </div>
+              <div class="metric-sub"><span class="trend-up">+8.2%</span> MoM</div>
+            </article>
+
+            <article class="metric-card active">
+              <div class="metric-head">Avg. Position</div>
+              <div class="metric-value">
+                <div class="num">#8.4</div>
+                <div class="tag">▲ Improved</div>
+              </div>
+              <div class="metric-sub"><span class="trend-up">↗ 1.2 spots</span> moved</div>
+            </article>
+
+            <article class="metric-card">
+              <div class="metric-head">Crawler Cleanliness</div>
+              <div class="metric-value">
+                <div class="num green">96.4%</div>
+              </div>
+              <div class="mini-progress"><span style="width:96.4%"></span></div>
+            </article>
+          </div>
+
+          <div class="grid-2">
+            <section class="card">
+              <div class="card-header">
+                <h2 class="card-title"><span class="title-icon">▣</span>Organic Clicks over Search Impression Scale</h2>
+                <div class="card-sub">Sep 01 - Sep 29</div>
+              </div>
+              <div class="chart-wrap">
+                <div class="chart-legend" aria-hidden="true">
+                  <div class="legend-item"><span class="dot gold"></span>Clicks</div>
+                  <div class="legend-item"><span class="dot blue"></span>Impressions</div>
+                </div>
+                <svg id="organicChart" viewBox="0 0 760 260" preserveAspectRatio="none" aria-label="Organic clicks and impressions chart"></svg>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-header">
+                <h2 class="card-title"><span class="title-icon">▣</span>Search Query Category Distribution</h2>
+                <div class="card-sub">Share of demand</div>
+              </div>
+              <div class="distribution">
+                <div class="dist-row">
+                  <div class="dist-meta"><span>Commercial Intents</span><span class="trend-up">55%</span></div>
+                  <div class="dist-track"><div class="dist-fill" style="width:55%"></div></div>
+                  <small>"buy", "price in bangladesh", "shop near me"</small>
+                </div>
+                <div class="dist-row">
+                  <div class="dist-meta"><span>Informational</span><span style="color:#a5baf7;">30%</span></div>
+                  <div class="dist-track"><div class="dist-fill blue" style="width:30%"></div></div>
+                  <small>"how to use", "best reviews", "vs"</small>
+                </div>
+                <div class="dist-row">
+                  <div class="dist-meta"><span>Brand Specific</span><span style="color:#e9edf7;">15%</span></div>
+                  <div class="dist-track"><div class="dist-fill white" style="width:15%"></div></div>
+                  <small>"ventureos dashboard", "brand login"</small>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <section class="card keyword-card">
+            <div class="card-header">
+              <h2 class="card-title"><span class="title-icon">▣</span>Target Keyword Positioning Index</h2>
+              <button class="btn-outline" type="button">Export CSV</button>
+            </div>
+            <div class="table-head">
+              <div>Keyword</div>
+              <div>Vol</div>
+              <div>Rank</div>
+              <div>Trend</div>
+              <div>CTR%</div>
+              <div>Action</div>
+            </div>
+            <div class="table-row">
+              <div>
+                <div class="kw-main">wireless earbuds price in bangladesh</div>
+                <div class="kw-sub">category: audio/earbuds</div>
+              </div>
+              <div>12.5k</div>
+              <div><span class="rank-pill">#3</span></div>
+              <div class="trend-up">↗ +2</div>
+              <div>8.4%</div>
+              <div><span class="status-pill gold">Scale</span></div>
+            </div>
+            <div class="table-row">
+              <div>
+                <div class="kw-main">smart watch online shop dhaka</div>
+                <div class="kw-sub">category: wearables</div>
+              </div>
+              <div>8.2k</div>
+              <div><span class="rank-pill">#6</span></div>
+              <div class="trend-flat">→ 0</div>
+              <div>4.1%</div>
+              <div><span class="status-pill muted">Monitor</span></div>
+            </div>
+            <div class="table-row">
+              <div>
+                <div class="kw-main">portable mini blender price bd</div>
+                <div class="kw-sub">category: kitchen/mini blender</div>
+              </div>
+              <div>4.5k</div>
+              <div><span class="rank-pill red">#14</span></div>
+              <div class="trend-down">↘ -3</div>
+              <div>1.2%</div>
+              <div><span class="status-pill muted">Fix</span></div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="side-stack">
+          <section class="side-card">
+            <div class="side-head">
+              <h3 class="side-title"><span class="title-icon">▣</span>Search Console Webhook Framework</h3>
+            </div>
+            <div class="service-list">
+              <div class="service-item">
+                <div class="service-icon">◎</div>
+                <div>
+                  <div class="service-name">Google Search Console</div>
+                  <div class="service-sub">Last ping: 2 mins ago</div>
+                </div>
+                <span class="status-pill green">Connected</span>
+              </div>
+              <div class="service-item">
+                <div class="service-icon">□</div>
+                <div>
+                  <div class="service-name">WooCommerce Sitemap</div>
+                  <div class="service-sub">Index: 14,204 URLs</div>
+                </div>
+                <span class="status-pill gold">Synced</span>
+              </div>
+              <div class="service-item">
+                <div class="service-icon">◇</div>
+                <div>
+                  <div class="service-name">API Request Pool</div>
+                  <div class="service-sub">Quota resets in 14h</div>
+                </div>
+                <span class="status-pill muted">14/200</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="side-card ai-card">
+            <div class="ai-head">
+              <h3><span class="title-icon">◎</span>AI Meta-Tag &amp; Title Engine</h3>
+              <span class="badge">Active AI Engine</span>
+            </div>
+            <div class="muted-kicker">Optimized Meta Title (Suggested)</div>
+            <div class="snippet-box">
+              Buy Wireless Earbuds Online in BD | Top Prices &amp; Reviews - BrandName
+              <div class="snippet-meta"><span>68/70 chars</span><span>Apply</span></div>
+            </div>
+            <div class="muted-kicker">Rich Snippet Schema Detected</div>
+            <div class="chips">
+              <span class="chip">Product</span>
+              <span class="chip">Offer</span>
+              <span class="chip">AggregateRating</span>
+            </div>
+            <div class="progress-block">
+              <div class="progress-label"><span>Semantic Integration Score</span><span class="trend-up">92%</span></div>
+              <div class="progress"><span></span></div>
+            </div>
+          </section>
+
+          <section class="alert-card">
+            <div class="alert-head">
+              <h3><span class="title-icon">△</span>Health Alert: Schema Missing</h3>
+            </div>
+            <p class="alert-copy">ProductSchema markers are missing on 42 newly imported SKUs in the "Portable Electronics" category, risking rich snippet loss.</p>
+            <button class="alert-button" type="button">Auto-Inject Schema</button>
+          </section>
+        </aside>
+      </section>
+
+      <div class="footerbar">
+        <div class="footer-left">
+          <div class="footer-item"><span class="status-dot"></span>SEO Engine Infrastructure: Google Search Graph v2.1</div>
+          <div class="footer-item"><span class="status-dot"></span>API Connection Established [288 OK] | Latency: 42ms</div>
+        </div>
+        <div class="footer-right">
+          <div class="footer-item">BD Cluster Organic Surface Index: <strong style="color:#f5d164; font-weight:700;">Stable</strong></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const svg = document.getElementById('organicChart');
+      const width = 760;
+      const height = 260;
+      const pad = { left: 42, right: 18, top: 16, bottom: 34 };
+      const labels = ['Sep 01', 'Sep 08', 'Sep 15', 'Sep 22', 'Sep 29'];
+      const clicks = [34, 42, 38, 49, 46];
+      const impressions = [26, 38, 34, 56, 52];
+      const maxVal = 70;
+
+      const xFor = (index) => pad.left + (index / (labels.length - 1)) * (width - pad.left - pad.right);
+      const yFor = (value) => pad.top + (1 - value / maxVal) * (height - pad.top - pad.bottom);
+
+      const pointsToPath = (values) => values.map((value, index) => `${index === 0 ? 'M' : 'L'} ${xFor(index)} ${yFor(value)}`).join(' ');
+      const areaPath = (values) => {
+        const line = pointsToPath(values);
+        const lastX = xFor(values.length - 1);
+        const firstX = xFor(0);
+        return `${line} L ${lastX} ${height - pad.bottom} L ${firstX} ${height - pad.bottom} Z`;
+      };
+
+      const make = (name, attrs = {}) => {
+        const node = document.createElementNS('http://www.w3.org/2000/svg', name);
+        Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
+        return node;
+      };
+
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      svg.setAttribute('preserveAspectRatio', 'none');
+
+      for (let i = 0; i < 4; i++) {
+        const y = pad.top + (i / 3) * (height - pad.top - pad.bottom);
+        svg.appendChild(make('line', {
+          x1: pad.left,
+          y1: y,
+          x2: width - pad.right,
+          y2: y,
+          stroke: 'rgba(255,255,255,0.08)',
+          'stroke-dasharray': '3 5',
+        }));
+      }
+
+      const gridMask = make('rect', {
+        x: pad.left,
+        y: pad.top,
+        width: width - pad.left - pad.right,
+        height: height - pad.top - pad.bottom,
+        fill: 'transparent'
+      });
+      svg.appendChild(gridMask);
+
+      const impressionsArea = make('path', {
+        d: areaPath(impressions),
+        fill: 'rgba(126, 164, 255, 0.09)',
+        stroke: 'rgba(126, 164, 255, 0.55)',
+        'stroke-width': '2',
+        'stroke-linejoin': 'round',
+        'stroke-linecap': 'round'
+      });
+      svg.appendChild(impressionsArea);
+
+      const clicksArea = make('path', {
+        d: areaPath(clicks),
+        fill: 'rgba(247, 200, 69, 0.12)',
+        stroke: 'rgba(247, 200, 69, 0.98)',
+        'stroke-width': '2.4',
+        'stroke-linejoin': 'round',
+        'stroke-linecap': 'round'
+      });
+      svg.appendChild(clicksArea);
+
+      const pointsGroup = make('g');
+      clicks.forEach((value, index) => {
+        const circle = make('circle', {
+          cx: xFor(index),
+          cy: yFor(value),
+          r: index === clicks.length - 1 ? 3.4 : 2.8,
+          fill: '#f2c84b',
+          stroke: '#20160a',
+          'stroke-width': '1'
+        });
+        pointsGroup.appendChild(circle);
+      });
+      impressions.forEach((value, index) => {
+        const circle = make('circle', {
+          cx: xFor(index),
+          cy: yFor(value),
+          r: 2.3,
+          fill: '#7ea4ff',
+          opacity: '0.78'
+        });
+        pointsGroup.appendChild(circle);
+      });
+      svg.appendChild(pointsGroup);
+
+      labels.forEach((label, index) => {
+        svg.appendChild(make('text', {
+          x: xFor(index) - 14,
+          y: height - 10,
+          fill: '#8e97aa',
+          'font-size': '9',
+          'font-family': 'Segoe UI, Arial, sans-serif'
+        })).textContent = label;
+      });
+
+      const yLabels = [0, 5, 15, 25];
+      yLabels.forEach((value, index) => {
+        const y = pad.top + (index / (yLabels.length - 1)) * (height - pad.top - pad.bottom);
+        svg.appendChild(make('text', {
+          x: 8,
+          y: y + 3,
+          fill: '#7e879c',
+          'font-size': '8',
+          'font-family': 'Segoe UI, Arial, sans-serif'
+        })).textContent = `${value}k`;
+      });
+    }());
+  </script>
+</body>
+</html>

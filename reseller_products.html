@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VentureOS | Reseller Products</title>
+  <style>
+    :root {
+      --bg: #0d1018;
+      --bg-soft: #111726;
+      --panel: #151d2f;
+      --panel-2: #172034;
+      --panel-3: #101523;
+      --border: rgba(225, 210, 168, 0.18);
+      --border-strong: rgba(225, 210, 168, 0.38);
+      --gold: #f0c24c;
+      --gold-2: #d9a93d;
+      --gold-soft: rgba(240, 194, 76, 0.16);
+      --text: #edf0f6;
+      --muted: #98a4bd;
+      --muted-2: #6d7690;
+      --success: #77d38f;
+      --danger: #ff6d6d;
+      --shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+      --radius: 0px;
+      --ui-font: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      --display-font: Georgia, "Times New Roman", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(240, 194, 76, 0.08), transparent 24%),
+        radial-gradient(circle at 80% 0%, rgba(125, 156, 255, 0.08), transparent 22%),
+        linear-gradient(180deg, #121723 0%, #0b0f18 100%);
+      color: var(--text);
+      font-family: var(--ui-font);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.6), transparent 85%);
+    }
+
+    .app {
+      width: min(1280px, calc(100vw - 42px));
+      margin: 18px auto 20px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: rgba(8, 12, 20, 0.8);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topbar {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 0 20px;
+      background: linear-gradient(180deg, rgba(30, 24, 11, 0.98), rgba(20, 18, 14, 0.98));
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: #fff2bd;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 5px 2px 4px;
+      background: #ffcf5d;
+      color: #1d1607;
+      border-radius: 2px;
+      font-size: 9px;
+      letter-spacing: 0.8px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .nav {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .nav a {
+      color: rgba(236, 239, 248, 0.72);
+      text-decoration: none;
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 2px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #fff;
+      background: rgba(240, 194, 76, 0.12);
+    }
+
+    .nav a.active {
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 4px;
+      border-radius: 0;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .mode-pill {
+      font-size: 10px;
+      color: #d8d9df;
+      padding: 3px 9px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.04);
+      white-space: nowrap;
+    }
+
+    .icon-btn {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: #f2f4fb;
+      border-radius: 2px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .avatar {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: #271f0c;
+      background: linear-gradient(180deg, #f5d980, #d9a63a);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+
+    .content {
+      padding: 16px 20px 14px;
+    }
+
+    .hero {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: var(--display-font);
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: #fff6db;
+    }
+
+    .hero p {
+      margin: 4px 0 0;
+      font-size: 10px;
+      color: rgba(224, 229, 242, 0.72);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      padding-top: 2px;
+    }
+
+    .ghost-btn,
+    .gold-btn {
+      border: 1px solid var(--border-strong);
+      background: rgba(255,255,255,0.03);
+      color: #eef1fb;
+      font-size: 10px;
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .ghost-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(240, 194, 76, 0.5);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .gold-btn {
+      background: linear-gradient(180deg, #f3ca62, #d7a63a);
+      color: #291d08;
+      border-color: rgba(255, 220, 141, 0.7);
+      font-weight: 700;
+    }
+
+    .gold-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .search-panel {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(16, 22, 35, 0.96), rgba(13, 18, 29, 0.96));
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .search-box {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      background: rgba(12, 17, 27, 0.95);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      min-width: 0;
+    }
+
+    .search-box svg {
+      flex: 0 0 auto;
+      opacity: 0.86;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: #edf2ff;
+      font-size: 11px;
+      min-width: 0;
+      font-family: var(--ui-font);
+    }
+
+    .search-box input::placeholder {
+      color: #6f7991;
+    }
+
+    .search-box .voice {
+      color: #bdc3d6;
+      font-size: 12px;
+      flex: 0 0 auto;
+    }
+
+    .search-submit {
+      height: 38px;
+      padding: 0 18px;
+      border: 0;
+      color: #2a1c06;
+      background: linear-gradient(180deg, #f2c65a, #d4a539);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 0;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      margin-bottom: 10px;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-label {
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      color: #a9afbf;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .pill {
+      height: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      color: #d5dbea;
+      font-size: 10px;
+      padding: 0 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .pill.active {
+      background: rgba(240, 194, 76, 0.14);
+      border-color: rgba(240, 194, 76, 0.4);
+      color: #fff6d6;
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 2px rgba(240, 194, 76, 0.1);
+    }
+
+    .trend-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .trend-row .tag-title {
+      color: #f0c24c;
+      font-size: 10px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .trend-chip {
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 8px;
+      font-size: 10px;
+      color: #dbe0ec;
+      background: rgba(99, 145, 210, 0.16);
+      border: 1px solid rgba(130, 160, 213, 0.26);
+      border-radius: 1px;
+      cursor: pointer;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .filters {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(20, 27, 42, 0.96), rgba(14, 19, 31, 0.96));
+      padding: 0;
+    }
+
+    .filters h2 {
+      margin: 0;
+      font-family: var(--display-font);
+      font-size: 16px;
+      padding: 12px 12px 10px;
+      color: #f1ead3;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .filter-section {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .filter-title {
+      font-size: 9px;
+      font-weight: 700;
+      color: #a9b1c4;
+      margin-bottom: 8px;
+      letter-spacing: 0.8px;
+    }
+
+    .price-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .price-inputs input {
+      width: 100%;
+      height: 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.02);
+      color: #edf2ff;
+      font-size: 10px;
+      padding: 0 6px;
+      outline: 0;
+      font-family: var(--ui-font);
+    }
+
+    .radio-list,
+    .check-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 10px;
+      color: #d1d7e6;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .choice input {
+      margin: 0;
+      width: 11px;
+      height: 11px;
+      accent-color: var(--gold);
+      flex: 0 0 auto;
+    }
+
+    .stars {
+      color: #f4d275;
+      letter-spacing: 1px;
+      font-size: 11px;
+    }
+
+    .main-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .insight {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(21, 29, 45, 0.98), rgba(13, 18, 29, 0.98));
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 16px 1fr auto;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .insight-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(240, 194, 76, 0.18);
+      color: #f2c65a;
+      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .insight h3 {
+      margin: 0;
+      font-size: 11px;
+      color: #f1d993;
+    }
+
+    .insight p {
+      margin: 2px 0 0;
+      font-size: 10px;
+      line-height: 1.45;
+      color: #d9def0;
+      max-width: 760px;
+    }
+
+    .insight-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product-card {
+      position: relative;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(18, 24, 38, 0.98), rgba(12, 16, 27, 0.98));
+      display: grid;
+      grid-template-rows: 26px 120px auto 84px;
+      overflow: hidden;
+      min-height: 376px;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px 0;
+      gap: 8px;
+      font-size: 10px;
+    }
+
+    .card-tags {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mini-tag {
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #d9dfec;
+      padding: 1px 5px;
+      font-size: 9px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 1px;
+      line-height: 1.5;
+    }
+
+    .mini-tag.gold {
+      border-color: rgba(240, 194, 76, 0.4);
+      color: #f7dc98;
+    }
+
+    .checkmark {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      border: 1px solid rgba(112, 179, 255, 0.9);
+      background: rgba(79, 149, 255, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #bfe3ff;
+      font-size: 9px;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+
+    .product-card.selected .checkmark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .product-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5570a6;
+      background: linear-gradient(180deg, rgba(16, 20, 33, 0.74), rgba(10, 14, 24, 0.92));
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .product-visual svg {
+      width: 88px;
+      height: 88px;
+      opacity: 0.95;
+    }
+
+    .product-body {
+      padding: 10px 12px 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .product-title {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #e8edf8;
+      min-height: 34px;
+    }
+
+    .product-meta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+      font-size: 10px;
+      color: #b5bdd0;
+    }
+
+    .price {
+      margin-top: 1px;
+      font-size: 14px;
+      color: #f2c65a;
+      font-weight: 800;
+    }
+
+    .value-sub {
+      display: grid;
+      gap: 3px;
+      justify-items: end;
+      text-align: right;
+    }
+
+    .value-sub strong {
+      color: #dfe5f5;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .margin-bar {
+      height: 3px;
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .margin-bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #f2c65a, #d7a63a);
+    }
+
+    .product-footer {
+      padding: 8px 10px 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .ghost-small {
+      height: 28px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.02);
+      color: #edf0fa;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .foot-note {
+      font-size: 9px;
+      color: #8a93a8;
+      margin-top: 2px;
+    }
+
+    .bottom-bar {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(11, 16, 27, 0.98), rgba(8, 12, 20, 0.98));
+      padding: 6px 10px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .selection-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #f5d98b;
+      border: 1px solid rgba(240, 194, 76, 0.22);
+      background: rgba(240, 194, 76, 0.08);
+    }
+
+    .mini-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mini-icon {
+      width: 18px;
+      height: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.02);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #bcc4d6;
+      font-size: 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .mini-icon.active {
+      border-color: rgba(240, 194, 76, 0.45);
+      background: rgba(240, 194, 76, 0.1);
+      color: #ffe6a7;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff9a9a;
+      border: 2px solid #ffcfcc;
+      position: absolute;
+      top: -4px;
+      right: -4px;
+    }
+
+    .bottom-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-self: end;
+    }
+
+    .clear-link {
+      color: #bac2d4;
+      font-size: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .compare-btn {
+      height: 30px;
+      padding: 0 14px;
+      border: 0;
+      background: linear-gradient(180deg, #f4cb63, #d6a83d);
+      color: #2a1e08;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .compare-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .arrow {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .icon-inline {
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    @media (max-width: 1120px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .filters {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        width: min(100vw - 18px, 100%);
+        margin: 8px auto;
+      }
+
+      .topbar {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 10px 12px;
+      }
+
+      .nav {
+        order: 3;
+        flex-basis: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero,
+      .search-row,
+      .bottom-bar {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .hero-actions,
+      .bottom-actions {
+        justify-self: start;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        VentureOS <span class="brand-badge">BETA</span>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#">Dashboard</a>
+        <a href="#" class="active">Products</a>
+        <a href="#">Market</a>
+        <a href="#">Blueprint</a>
+        <a href="#">Shipping</a>
+        <a href="#">Tracking</a>
+        <a href="#">SEO</a>
+        <a href="#">Settings</a>
+      </nav>
+
+      <div class="topbar-right">
+        <div class="mode-pill">Mode A - Reseller</div>
+        <button class="icon-btn" aria-label="Notifications">🔔</button>
+        <div class="avatar">KR</div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="hero">
+        <div>
+          <h1>Product Search</h1>
+          <p>Find, compare and validate products across China &amp; BD platforms</p>
+        </div>
+        <div class="hero-actions">
+          <button class="ghost-btn"><span class="icon-inline" aria-hidden="true"><rect x="3" y="2.5" width="6" height="9" rx="1"></rect></span>Saved Searches</button>
+          <button class="ghost-btn"><span class="icon-inline" aria-hidden="true"><path d="M4 3.5h8M4 7.5h8M4 11.5h8"></path><rect x="2" y="2" width="12" height="13" rx="1.5"></rect></span>Pre-Data Report</button>
+        </div>
+      </section>
+
+      <section class="search-panel">
+        <div class="search-row">
+          <label class="search-box" aria-label="Search products">
+            <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"></circle>
+              <path d="M16.2 16.2L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+            <input type="text" value="" placeholder="Search any product in English or Bengali... e.g. wireless earbuds, umbrella, mini fan" id="searchInput" />
+            <span class="voice">🎙</span>
+          </label>
+          <button class="search-submit" id="searchBtn">Search</button>
+        </div>
+
+        <div class="chip-row">
+          <div class="chip-group">
+            <span class="chip-label">Platforms:</span>
+            <button class="pill active" data-chip-group="platform">● All</button>
+            <button class="pill" data-chip-group="platform">Alibaba</button>
+            <button class="pill" data-chip-group="platform">1688</button>
+            <button class="pill" data-chip-group="platform">PDD</button>
+          </div>
+          <div class="chip-group">
+            <span class="chip-label">Filters:</span>
+            <button class="pill active" data-chip-group="filters">Quality Tiers</button>
+            <button class="pill" data-chip-group="filters">Shipping</button>
+          </div>
+        </div>
+
+        <div class="trend-row">
+          <span class="tag-title">↗ Trending:</span>
+          <button class="trend-chip">TWS Earbuds 6.3</button>
+          <button class="trend-chip">Mini Neck Fan</button>
+          <button class="trend-chip">Smartwatch AMOLED</button>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="filters">
+          <h2>Filters</h2>
+          <div class="filter-section">
+            <div class="filter-title">Price Range (৳)</div>
+            <div class="price-inputs">
+              <input type="text" value="Min" />
+              <input type="text" value="Max" />
+            </div>
+          </div>
+          <div class="filter-section">
+            <div class="filter-title">MOQ</div>
+            <div class="radio-list">
+              <label class="choice"><input type="radio" name="moq" />Any</label>
+              <label class="choice"><input type="radio" name="moq" />&lt; 50 units</label>
+              <label class="choice"><input type="radio" name="moq" checked />&lt; 100 units</label>
+            </div>
+          </div>
+          <div class="filter-section">
+            <div class="filter-title">Supplier Rating</div>
+            <div class="stars">☆☆☆☆☆ &amp; Up</div>
+          </div>
+          <div class="filter-section">
+            <div class="filter-title">Shipping Time (air)</div>
+            <div class="check-list">
+              <label class="choice"><input type="checkbox" />Express (3-5 days)</label>
+              <label class="choice"><input type="checkbox" checked />Standard (7-12 days)</label>
+            </div>
+          </div>
+        </aside>
+
+        <div class="main-panel">
+          <section class="insight">
+            <div class="insight-icon">◎</div>
+            <div>
+              <h3>Venture AI Insight</h3>
+              <p>High demand detected for "Wireless Earbuds" in BD market this week. Consider suppliers with sub-7 day lead times to capture immediate margin opportunities. Average landed cost is currently tracking 12% lower than last month.</p>
+            </div>
+            <div class="insight-actions">
+              <span class="mini-tag gold">AI</span>
+            </div>
+          </section>
+
+          <section class="card-grid" id="cardGrid">
+            <article class="product-card selected" data-product-card>
+              <div class="card-top">
+                <div class="card-tags">
+                  <span class="mini-tag">1688</span>
+                  <span class="mini-tag gold">Tier A</span>
+                </div>
+                <span class="checkmark" title="Selected">✓</span>
+              </div>
+              <div class="product-visual">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <rect x="18" y="24" width="84" height="72" rx="10" fill="none" stroke="currentColor" stroke-width="6"></rect>
+                  <path d="M34 58h52" stroke="currentColor" stroke-width="6" stroke-linecap="round"></path>
+                  <path d="M42 42h36" stroke="currentColor" stroke-width="6" stroke-linecap="round"></path>
+                </svg>
+              </div>
+              <div class="product-body">
+                <h3 class="product-title">Pro TWS Earbuds 5.3 Bluetooth Wireless with LED Display Power Bank</h3>
+                <div class="product-meta">
+                  <div>
+                    <div class="price">৳ 18.50</div>
+                    <div class="foot-note">Est. landed ৳25.30</div>
+                  </div>
+                  <div class="value-sub">
+                    <strong>MOQ: 50</strong>
+                    <span>Lead: 3 days</span>
+                  </div>
+                </div>
+                <div class="margin-bar"><span style="width: 42%"></span></div>
+                <div class="foot-note">Est. Margin</div>
+              </div>
+              <div class="product-footer">
+                <button class="ghost-small">View Details</button>
+                <button class="ghost-small">Calculate Profit</button>
+              </div>
+            </article>
+
+            <article class="product-card selected" data-product-card>
+              <div class="card-top">
+                <div class="card-tags">
+                  <span class="mini-tag">Alibaba</span>
+                  <span class="mini-tag gold">Tier A</span>
+                </div>
+                <span class="checkmark" title="Selected">✓</span>
+              </div>
+              <div class="product-visual">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <path d="M34 34v52c0 10 8 18 18 18h16c10 0 18-8 18-18V34" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"></path>
+                  <path d="M38 40c9 0 12 9 22 9s13-9 22-9" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"></path>
+                  <path d="M46 58h28" stroke="currentColor" stroke-width="6" stroke-linecap="round"></path>
+                </svg>
+              </div>
+              <div class="product-body">
+                <h3 class="product-title">ANC Active Noise Cancelling Earbuds Premium Quality Bass</h3>
+                <div class="product-meta">
+                  <div>
+                    <div class="price">৳ 45.00</div>
+                    <div class="foot-note">Est. landed ৳79.00</div>
+                  </div>
+                  <div class="value-sub">
+                    <strong>MOQ: 100</strong>
+                    <span>Lead: 5 days</span>
+                  </div>
+                </div>
+                <div class="margin-bar"><span style="width: 65%"></span></div>
+                <div class="foot-note">Est. Margin</div>
+              </div>
+              <div class="product-footer">
+                <button class="ghost-small">View Details</button>
+                <button class="ghost-small">Calculate Profit</button>
+              </div>
+            </article>
+
+            <article class="product-card selected" data-product-card>
+              <div class="card-top">
+                <div class="card-tags">
+                  <span class="mini-tag">PDD</span>
+                  <span class="mini-tag gold">Tier B</span>
+                </div>
+                <span class="checkmark" title="Selected">✓</span>
+              </div>
+              <div class="product-visual">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <rect x="32" y="24" width="56" height="72" rx="8" fill="none" stroke="currentColor" stroke-width="6"></rect>
+                  <circle cx="60" cy="58" r="11" fill="none" stroke="currentColor" stroke-width="6"></circle>
+                  <path d="M46 85h28" stroke="currentColor" stroke-width="6" stroke-linecap="round"></path>
+                </svg>
+              </div>
+              <div class="product-body">
+                <h3 class="product-title">Mini Portable Bluetooth Speaker Waterproof Outdoor Audio</h3>
+                <div class="product-meta">
+                  <div>
+                    <div class="price">৳ 12.80</div>
+                    <div class="foot-note">Est. landed ৳20.10</div>
+                  </div>
+                  <div class="value-sub">
+                    <strong>MOQ: 30</strong>
+                    <span>Lead: 2 days</span>
+                  </div>
+                </div>
+                <div class="margin-bar"><span style="width: 18%"></span></div>
+                <div class="foot-note">Est. Margin</div>
+              </div>
+              <div class="product-footer">
+                <button class="ghost-small">View Details</button>
+                <button class="ghost-small">Calculate Profit</button>
+              </div>
+            </article>
+          </section>
+
+          <section class="bottom-bar">
+            <div class="selection-pill"><span id="selectionCount">3</span> Products Selected</div>
+            <div class="mini-controls">
+              <div class="mini-icon">⟲</div>
+              <div class="mini-icon">♡</div>
+              <div class="mini-icon active">🗂<span class="badge-dot"></span></div>
+            </div>
+            <div class="bottom-actions">
+              <span class="clear-link" id="clearAll">Clear All</span>
+              <button class="compare-btn" id="compareBtn">Compare Selected <span class="arrow">→</span></button>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const chipButtons = document.querySelectorAll('.pill, .trend-chip');
+    const productCards = document.querySelectorAll('[data-product-card]');
+    const selectionCount = document.getElementById('selectionCount');
+    const compareBtn = document.getElementById('compareBtn');
+    const clearAll = document.getElementById('clearAll');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+
+    function updateCount() {
+      const count = document.querySelectorAll('[data-product-card].selected').length;
+      selectionCount.textContent = count;
+      compareBtn.disabled = count === 0;
+    }
+
+    chipButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const group = button.getAttribute('data-chip-group');
+        if (group) {
+          document.querySelectorAll('[data-chip-group="' + group + '"]').forEach((item) => item.classList.remove('active'));
+          button.classList.add('active');
+        }
+        if (button.classList.contains('trend-chip')) {
+          searchInput.value = button.textContent.trim();
+        }
+      });
+    });
+
+    productCards.forEach((card) => {
+      card.addEventListener('click', (event) => {
+        const clickedFooterButton = event.target.closest('button');
+        if (clickedFooterButton) {
+          return;
+        }
+        card.classList.toggle('selected');
+        updateCount();
+      });
+    });
+
+    clearAll.addEventListener('click', () => {
+      productCards.forEach((card) => card.classList.remove('selected'));
+      updateCount();
+    });
+
+    searchBtn.addEventListener('click', () => {
+      searchBtn.textContent = searchInput.value.trim() ? 'Searching...' : 'Search';
+      window.setTimeout(() => {
+        searchBtn.textContent = 'Search';
+      }, 700);
+    });
+
+    compareBtn.addEventListener('click', () => {
+      if (compareBtn.disabled) return;
+      compareBtn.textContent = 'Preparing Compare...';
+      window.setTimeout(() => {
+        compareBtn.innerHTML = 'Compare Selected <span class="arrow">→</span>';
+      }, 800);
+    });
+
+    updateCount();
+  </script>
+</body>
+</html>
